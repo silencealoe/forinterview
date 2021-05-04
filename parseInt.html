@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // [1,2,3].map(parseInt)
+        let arr = [1, 2, 3].map((item, index) => {
+            return parseInt(item, index)
+        })
+        // parseInt() 第一个参数表示传递的值，第二个参数表示要装换的进制（范围是2-36）,如果小于2或者大于36，返回NaN, 当进制参数传递为0或者undefined时，表示的是10进制
+        // parseInt(1, 0)  表示10进制 1
+        // parseInt(2, 1)  NaN  
+        // parseInt(3, 2) 3不是2进制, 返回NaN
+        console.log(arr) // [1, NaN, NaN]
+        let arr2 = [200, 1234, 98, 34].map(parseInt)
+        console.log(arr2) // [200, NaN, NaN, NaN]
+        let arr3 = [1, 2, '1222', '213', 10, 10 , '72345', '10', '123'].map(parseInt)
+        console.log(arr3) 
+        let arr4 = [1.1, 2, '1222', '213', 10, 10 , '72345', '10', '123'].map(parseFloat)
+        console.log(arr4) 
+        // parse(1, 0) // 1
+        // parse(2, 1) // NaN
+        // parse('1222', 2) // 1 < 2  --1
+        // parse('213', 3) // 2*3+1  --7
+        // parse(10, 4) // 4 * 1 --4
+        // parse(10, 5) // 5
+        // parse('72345', 6) // NaN
+        // parse('2345', 6) // 2 * 216 + 3 * 36 + 4*6 + 5  --569
+        // parse(10, 7) // 7
+        // parse('123', 8) // 64*1 + 8*2 + 3 * 1 = 83
+        console.log(parseInt(null))
+
+        // parseFloat() 只解析十进制，因此它没有第二个参数指定基数的用法
+
+
+
+    </script>
+</body>
+</html>

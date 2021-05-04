@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //平衡二叉树：每个节点的左子树和右子树高度差最大为1
+        function Node(value) {
+            this.value = value
+            this.left = null
+            this.right = null
+        }
+        let A = new Node('a')
+        let B = new Node('b')
+        let C = new Node('c')
+        let D = new Node('d')
+        let E = new Node('e')
+        A.left = B
+        A.right = C
+        B.left = D
+        D.left = E
+        function getDeep(node){
+            let leftDeep = 0
+            let rightDeep = 0
+            if(!node) return 0
+            if (node.left) {
+                leftDeep = getDeep(node.left)
+            }
+            if (node.right) {
+                rightDeep = getDeep(node.right)
+            }
+            return Math.max(rightDeep, leftDeep) + 1
+        }
+        function isBalance(node) {
+            let leftDep = 0
+            let rightDep = 0
+            if (!node) return true
+            if (node.left) {
+                leftDep = getDeep(node.left)
+            }
+            if (node.right) {
+                rightDep = getDeep(node.right)
+            }
+            if (Math.abs(leftDep - rightDep) > 1) {
+                return false
+            } else {
+                return isBalance(node.left) && isBalance(node.right)
+            }
+        }
+        console.log('isBlance ', isBalance(C))
+    </script>
+</body>
+</html>

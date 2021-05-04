@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function toHump(str) {
+            return str.replace(/\_(\w)/g, function(all, letter){
+                console.log('all', all) // _n
+                console.log('all', letter) // n
+                return letter.toUpperCase()
+            })
+        }
+       let res = toHump('class_name')
+       console.log(res)
+       function toLine(str) {
+           return str.replace(/([A-Z])/g, '_$1')
+       }
+       let line = toLine('myClassName')
+       console.log(line)
+    </script>
+</body>
+</html>

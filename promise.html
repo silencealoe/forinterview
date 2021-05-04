@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // promise解决回调函数的层层嵌套，得到的是异步操作的结果
+        // 缺点： promise不能中途取消，一旦新建就会立马执行
+                    // 如果不设置回调函数，promise内部抛出的错误就无法反应到外部,
+                    // 处于pending状态时，无法知道处于什么阶段（刚开始还是即将完成）
+        // promise有三种状态，一旦状态发生改变就不会再变，只能pending--fulfilled  pending--rejected
+        // Promise.done() 如果最后一个方法抛出异常那么会捕捉不到。done()处在回调链的最低端，保证任何错误都能被捕捉
+        // Promise.finally() 无论执行结果怎样都会被执行
+        // Promise.prototype.catch() 会捕获前面所有then抛出的异常
+        // 将方法加在构造函数的原型上而不是构造函数本身的原因？
+        // 不是每一个实例都需要这种方法，加在构造函数本身，实例化时每个实例都会拥有这个方法，这会导致浪费大量的内存空间，
+        // 如果只是添加到原型中，只是将这个方法放在了内存中的一个位置中，每一个实例都可以访问
+        var PENDING = 'pending'
+        var RESOLVED = 'resolved'
+        var REJECTED = 'rejected'
+        // function myPromise(callback) {
+        //     var that = this
+        //     this.status = PENDING
+        //     this.reason = null
+        //     this.value = null
+        //     this.resolvedCallback = []
+        //     this.rejectedCallback = []
+        //     function resolve(value) {
+        //         console.log('resolve--', that.status)
+        //         console.log('resolve--', typeof value)
+        //         let tempValue = null
+        //         if(that.status === PENDING) {
+        //             that.status = RESOLVED
+        //             that.resolvedCallback.map(function(fn, index, arr){
+        //                 if(index > 0 && arr.length > 1) {
+        //                     // const resVal = that.resolvedCallback[index - 1](tempValue)
+        //                     tempValue = fn(tempValue)
+        //                     return tempValue
+        //                 }
+        //                 tempValue = fn(value)
+        //                 return tempValue
+        //             })
+        //         }
+        //     }
+        //     function reject(reason) {
+        //         if(that.status === PENDING) {
+        //             that.status = REJECTED
+        //             that.rejectedCallback.map(function(fn){
+        //                 return fn(reason)
+        //             })
+        //         }
+        //     }
+        //     callback(resolve, reject)
+        //     // try{
+        //     //     callback(resolve, reject)
+        //     //     // throw new Error('error')
+        //     // } catch(e) {
+        //     //     console.log('eoor', e)
+        //     //     reject(e)
+        //     // }
+        // }
+        // myPromise.prototype.then = function (onFill, onFail) {
+        //     if(this.status === PENDING) {
+        //         this.resolvedCallback.push(onFill)
+        //         this.rejectedCallback.push(onFail)
+        //     }
+        //     console.log(this.status)
+        //     if(this.status === RESOLVED) {
+        //         onFill(this.value)
+        //     }
+        //     if(this.status === REJECTED) {
+        //         onFail(this.reason)
+        //     }
+        //     return this // 返回新的Promise实例
+        // }
+        // // var p = new myPromise(function(resolve, reject){
+        // //     console.log('111')
+        // //     setTimeout(function(){
+        // //         console.log('222')
+        // //         var sice = true
+        // //         if(sice) {
+        // //             resolve('成功')
+        // //         } else {
+        // //             reject('失败')
+        // //         }
+        // //     }, 1000)
+        // // })
+        // // p.then(function(res){
+        // //     console.log('res', res)
+        // //     return res + 'a'
+        // // }, function(res){
+        // //     console.log('err--', res)
+        // // }).then(function(res){
+        // //     console.log('re222', res)
+        // //     return res+'b'
+        // // }).then(function(res){
+        // //     console.log('bb--', res)
+        // // })
+
+        // var p1 = new myPromise(function(resolve, reject){
+        //     setTimeout(function(){
+        //         reject(new Error('fail---'))
+        //     }, 3000)
+        // })
+        // var p2 = new myPromise(function(resolve, reject){
+        //     setTimeout(function(){
+        //         resolve(p1)
+        //     }, 1000)
+        // })
+        // p2.then(function(res){
+        //     console.log(res)
+        // }, function(err){
+        //     console.log(err)
+        // })
+
+
+
+        // 我自己的思路
+        // function myPromise (callback) {
+        //     this.status = PENDING
+        //     this.value = null  // 成功时的值
+        //     this.reason = null // 失败原因
+        //     this.resolveCallbackList = []
+        //     this.rejectCallbackList = []
+        //     const that = this
+        //     function resolve(val) {
+        //         if(that.status === PENDING) {
+        //             that.status = RESOLVED
+        //             that.value = val
+        //             that.resolveCallbackList.forEach(function(fn){
+        //                 fn()
+        //             })
+        //         }
+        //     }
+        //     function reject(reason) {
+        //         that.status = REJECTED
+        //         that.reason = reason
+        //         that.rejectCallbackList.forEach(function(fn){
+        //             fn()
+        //         })
+        //     }
+        //     try{
+        //         callback(resolve, reject)
+        //     } catch(e) {
+        //         // throw new Error(e)
+        //         reject(e)
+        //     }
+        // }
+
+        // function handleResolve(res, rej, resCb, rejCb) {
+        //     queueMicrotask(() => {
+        //         // 如果没有定义回调，将值传递给下一个
+        //         try {
+        //             const ret = typeof resCb === 'function' ? resCb(this.value) : this.value;
+        //             if (ret instanceof myPromise) {
+        //                 ret.then(res, rej)
+        //             } else {
+        //                 res(ret)
+        //             }   
+        //         } catch (err) {
+        //             rej(err)
+        //         }
+        //     })
+        // }
+
+        // function handleReject(res, rej, resCb, rejCb) {
+        //     queueMicrotask(() => {
+        //         // 如果没有定义回调，将值传递给下一个
+        //         try {
+        //             const ret = typeof rejCb === 'function' ? rejCb(this.value) : this.value;
+        //             if (ret instanceof myPromise) {
+        //                 ret.then(res, rej);
+        //             } else {
+        //                 rej(ret);
+        //             }   
+        //         } catch (err) {
+        //             rej(err);
+        //         }
+        //     });
+        // }
+        // myPromise.prototype.then = function(onFulfilled, onRejected){
+        //     // typeof function(){}  // function
+        //     onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : value => value
+        //     onRejected = typeof onRejected === 'function' ? onRejected : err => { this.reason = err }
+        //     if(this.status === PENDING) {
+        //         this.resolveCallbackList.push(onFulfilled)
+        //         this.rejectCallbackList.push(onRejected)
+        //     }
+        //     if(this.status === RESOLVED) {
+        //         try{
+        //             onFulfilled(this.value)
+        //         } catch (e){
+        //             this.reason = e
+        //             this.rejectCallbackList.push(onRejected)
+        //         }
+        //     }
+        //     if(this.status === REJECTED) {
+        //         console.log('reject', this.reason)
+        //         onRejected(this.reason)
+        //     }
+        //     return this
+        // }
+
+        // myPromise.prototype.catch = (onRejected) =>{
+        //     console.log('catch')
+        //     // return myPromise.prototype.then(null, onRejected)
+        // } 
+        // // myPromise.prototype.catch = function(onRejected){
+        // //     if(this.status === REJECTED) {
+        // //         try{
+        // //             onRejected(this.reason)
+        // //         } catch(e) {
+        // //             this.reason = e
+        // //         }
+        // //     }
+        // //     return this
+        // // }
+
+        // var pr = new myPromise(function(resolve, reject){
+        //     // console.log('eee')
+        //     // var a = 'success'
+        //     resolve(a)
+        // })
+        // pr.then(function(res) {
+        //     console.log('111', res)
+        // }).catch(function(err){
+        //     console.log('222-err', err)
+        // })
+        // // real promise
+        // // var realP = new Promise((resolve, reject)=>{
+        // //     // console.log(real)
+        // //     resolve(real)
+        // // }).then((res) => {
+        // //     // const a = '1'
+        // //     // a=12
+        // //     console.log('then', res)
+        // // }).catch((err) => {
+        // //     console.log('real', err)
+        // // }).catch(err => {
+        // //     console.log('222', err) // catch捕获显示的是前一个错误信息
+        // // })
+
+    new Promise(function(resolve) {
+        console.log('promise')  // 1
+        resolve();
+    }).then(function() {
+        setTimeout(() => {
+            console.log('promise setTimeout')   // 3
+            Promise.resolve().then(() => {
+                console.log('promise setTimeout promise')  // 4
+            });
+        }, 0)
+        setTimeout(() => {
+        console.log('promise setTimeout1') // 5
+        }, 0)
+        Promise.resolve().then(() => {
+            console.log('promise promise')  // 2
+        });
+    });
+
+
+
+
+        
+
+
+    </script>
+</body>
+</html>

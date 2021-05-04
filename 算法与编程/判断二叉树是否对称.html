@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+         function Node(value) {
+            this.value = value
+            this.left = null
+            this.right = null
+        }
+        let A = new Node('1')
+        let B = new Node('2')
+        let C = new Node('2')
+        let D = new Node('3')
+        let E = new Node('3')
+        A.left = B
+        A.right = C
+        B.left = D
+        C.right = E
+        function isSymmetric(node) {
+            if(!node.left && !node.right) return true // 只有根节点则对称
+            let isEqual = function(lNode,rNode) {
+                if( !lNode && !rNode) return true
+                if (!lNode || !rNode) { // 左右缺一则不对称
+                    return false
+                }
+                // 节点的值相等，左节点的左节点与右子树的右节点比较
+                return lNode.value === rNode.value && isEqual(lNode.left, rNode.right) && isEqual(lNode.right, rNode.left)
+            }
+            return isEqual(node.left, node.right)
+        }
+        console.log('是否对称', isSymmetric(A))
+        
+        function stackSymmetric(node) {
+            if(!node.left && !node.right) return true // 只有根节点则对称
+            let stacks = [node.left, node.right]
+            while (stacks.length) {
+                let right = stacks.pop()
+                let left = stacks.pop()
+                if (left && right) {
+                    if(right.value !== left.value) return false
+                    stacks.push(left.left)
+                    stacks.push(right.right)
+                    stacks.push(left.right)
+                    stacks.push(right.left)
+                } else if(left || right){
+                    return false
+                }
+            }
+            return true
+        }
+        console.log('是否对称11', stackSymmetric(A))
+
+    </script>
+</body>
+</html>

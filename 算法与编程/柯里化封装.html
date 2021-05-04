@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 柯里化： 把接受多个参数的函数变换成接受一个单一参数(最初函数的第一个参数)的函数，并且返回接受余下的参数且返回结果的新函数的技术
+        const sum = (...args) => args.reduce((prev, cur) => prev + cur, 0)
+        sum(1,2,3) // 6
+        // const curryingSum = currying(sum)
+        // curryingSum(1)(2)(3)() // 6
+        // curryingSum(1, 2)(3)()
+
+        function currying(func){
+            let argsArr = []
+            return function foo() {
+                if(arguments.length === 0) {
+                    return func.apply(null, argsArr)
+                }
+                argsArr.push(...arguments)
+                return foo
+            }
+        }
+        const curryingSum = currying(sum)
+        console.log(curryingSum(1, 2)(2)(3, 2)())
+        // curryingSum(1, 2)(3)()
+
+
+    </script>
+</body>
+</html>

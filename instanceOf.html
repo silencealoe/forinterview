@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // instanceof 运算符用于检测构造函数的 prototype 属性是否出现在某个实例对象的原型链上
+        // 判断右边变量的原型是否存在于左边变量的原型链上
+        // 左边必须是对象。右边必须是函数
+        function myInstanceOf(left, right) {
+            if (typeof left !== 'object' ) {
+                return false
+            }
+            if (typeof right !== 'function') {
+                return false
+            }
+            while(left) {
+                if(left.__proto__ === right.prototype){
+                    return true
+                }
+                left = left.__proto__
+            }
+            return false
+        }
+        console.log('是否是实例', myInstanceOf(1, Number    ))
+    </script>
+</body>
+</html>

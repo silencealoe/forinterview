@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+          margin: 0;
+          padding: 0;
+        }
+  
+        /* html,
+        body {
+          width: 100%;
+          height: 100%;
+        } */
+  
+        /* .outer {
+          width: 400px;
+          height: 100%;
+          background: blue;
+          margin: 0 auto;
+          display: flex;
+          align-items: center;
+        }
+  
+        .inner {
+          position: relative;
+          width: 100%;
+          height: 0;
+          padding-bottom: 50%;
+          background: red;
+        }
+  
+        .box {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        } */
+        /* .wrap {
+            
+        } */
+        .wrap {
+            width: 400px;
+            height: 1000px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+        }
+        .outer-box {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 50%;
+            background: aqua;
+        }
+        .inner-text {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+      </style>
+</head>
+<body>
+    <!-- css div 垂直水平居中，并完成 div 高度永远是宽度的一半（宽度可以不指定） -->
+    <!-- padding 百分比 -->
+    <!-- 当padding设置成百分比的时候，表示按父级元素的大小取百分比，如果父级不存在宽高则依次向上取值，直到取到body -->
+    <!-- css权重
+        属性选择器 a[href][title] {color:red;}
+        ！import > 行内样式 > id >  属性选择器 class 伪类 > 元素标签 伪元素 > 通配符 * 
+    -->
+    <!-- margin: 0 auto 实现原理 -->
+    <!-- 当我们给一个块元素设置 margin-left: auto ( margin-right: auto ) 时，其计算值为该块元素的父级在水平方向上的可用剩余空间，二者都设置了就均分剩余空间，自然就让该元素水平方向居中了 -->
+    <!-- <div class="outer">
+        <div class="inner">
+          <div class="box">hello</div>
+        </div>
+    </div> -->
+    <div class="wrap">
+        <div class="outer-box">
+            <p class="inner-text">
+                爱神的箭爱丽丝肯德基撒旦教拉阿斯达s大所大所大所多丝机的
+            </p>
+        </div>
+    </div>
+</body>
+</html>

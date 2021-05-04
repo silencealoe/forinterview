@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 实现一个sleep函数 sleep(1000) 1s 后执行
+        // setTimeOut
+        // 法一：
+        // function sleep(callback, time){
+        //     setTimeout(function(){
+        //         if(typeof callback === 'function') {
+        //             callback()
+        //         }
+        //     }, time)
+        // }
+        function test(){
+            console.log('start sleep')
+        }
+        // sleep(test, 5000)
+        // 法二 promise
+        function sleep(time){
+            return new Promise(function(resolve){
+                setTimeout(resolve, time)
+            })
+        }
+        // sleep(5000).then(() => {
+        //     test()
+        // })
+        // 法三 async await
+        async function init(){
+            await sleep(5000)
+        }
+        // console.log(init())
+        init().then(() => {
+            test()
+        })
+
+        // 每隔1秒打出1，2，3，4，5的函数
+        function intervalNum(){
+            let i = 0
+            return () => {
+                i++
+                console.log('i--', i)
+            }
+        }
+        let i = 1
+        let timer = setInterval(() => {
+            console.log('i--', i)
+            i++       
+            if(i > 5) {
+                clearInterval(timer)
+            }     
+        }, 1000);
+    </script>
+</body>
+</html>

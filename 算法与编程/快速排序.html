@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 快速排序：
+        // 以数组中第一个数为基准，将小于这个基准数的数放入基数前面，大于这个基数的数放入基数后面，前后两个数组一次进行这种操作
+        function quickSort(arr) {
+            if (!Array.isArray(arr) || arr.length===0) {
+                return arr
+            }
+            const baseNum = arr[0]
+            const lessArr = []
+            const greateArr = []
+            arr.forEach(num => {
+                if(num < baseNum) lessArr.push(num)
+                if(num > baseNum) greateArr.push(num)
+            });
+            return quickSort(lessArr).concat(baseNum, quickSort(greateArr))
+        }
+        const testArr = [22, 12, 44, 35, 6, 17, 90, 109, 8, 41]
+        const res = quickSort(testArr)
+        console.log(res)
+    </script>
+</body>
+</html>

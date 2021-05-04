@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=<s>, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 实现call()
+        var name = 'zhangsan'
+        Function.prototype.mycall = function(context, ...args) {
+            var context = context || window
+            context.fn = this
+            context.fn(...args)
+            // delete context
+        }
+        var obj = {
+            name: 'xiaoming'
+        }
+        function func(a, b) {
+            console.log('val--', a, b)
+            console.log('this--', this.name)
+        }
+        // func.mycall(null, '123', '456')
+        // 实现apply 
+        Function.prototype.myapply = function(context, args) {
+            var context = context || window
+            context.fn = this
+            context.fn(...args)
+            // delete context.fn
+        }
+        // func.apply(obj, '1')
+        // func.myapply(obj, ['hello', 'world'])
+
+        // 实现bind
+        Function.prototype.mybind = function(context, args) {
+            var context = context || window
+            context.fn = this
+            return context.fn
+        }
+        var func2 = func.bind(obj, '1--', '2--')
+        func2()
+        
+    </script>
+</body>
+</html>

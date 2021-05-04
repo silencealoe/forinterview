@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //单向链表有环： 某节点的next指向了前面的节点，则有环
+        function LinkList() {
+            this.next = null
+            this.flag = false
+        }
+        let A = new LinkList()
+        let B = new LinkList()
+        let C = new LinkList()
+        let D = new LinkList()
+        A.next = B
+        B.next = C
+        C.next = D
+        D.next = C
+        
+        // 法一： 标志判断
+        function hasCycle(link) {
+            console.log('ccc', link)
+            while(link.next) {
+                if (link.flag) {
+                    return true
+                }
+                link.flag = true
+                link = link.next
+            }
+            return false
+        }
+        // 法二： 利用JSON.stringify()不能序列化循环引用的对象
+        function hasCycle2(link) {
+            try{
+                JSON.stringify(link) // 如果没有报错，说明没有环
+                return false
+            }catch(err) {
+                // 报错说明有环
+                return true
+            }
+        }
+        console.log('有环', hasCycle(A))
+
+    </script>
+</body>
+</html>

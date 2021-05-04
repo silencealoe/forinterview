@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 判断一个字符串是否是回文字符串（回文数字）
+        function isPalindrome (str) {
+            if(typeof str === 'number') {
+                str = (str).toString()
+            }
+            let i = 0
+            let j = str.length - 1
+            while(i < j) {
+                if(str[i] !== str[j]) return false
+                i++
+                j--
+            }
+            return true
+        }
+        const testStr = 'abbbabbba'
+        const res = isPalindrome(testStr)
+        console.log('aa', res)
+    </script>
+</body>
+</html>

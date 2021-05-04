@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function Parent(){
+            // 用于确认构造函数是怎么调用，如果是用new调用 会返回new作用的构造函数，
+            // 如果构造函数不是通过new调用，会返回undefined
+            console.log(new.target) 
+            this.name = 'parent father'
+        }
+        Parent.prototype.action = function(){
+            console.log('father', this.name)
+        }
+        Parent.prototype.names = 'wang' // 原型上的属性，实例自身找不到这个属性会在原型链上面去查找
+        let f = new Parent()
+        console.log(f.names)
+        // f.action()
+
+
+
+        // es5中的类和es6中中类的区别
+        // 1: es6中内部定义的所有方法都是不可枚举的 Object.keys(Point.prototype) ---> [], es5中的内部方法可枚举
+        // 2： es6中类必须通过new来调用，否则会报错，而es5不用new也可执行
+        // 3: es6中类不存在变量声明提升，es5存在
+        // 4： es5不允许继承原生构造函数，es6可以
+        // es6继承，先创建父类的实例对象this(必须先调用super方法), 再用子类的构造函数修改this
+        // es5继承， 先创建子类的实例对象this，再将父类的方法添加到this(Parent.applay(this))
+        // 
+
+        // 箭头函数与普通函数的区别
+        // 1. 箭头函数没有自身的prototype属性，不能作为构造函数
+        // 2. 箭头函数中的this指向函数所在上下文(外层环境this)， 普通函数中的this指向取决于函数的调用位置
+        function arrow() {}
+        console.log(arrow.prototype)
+    </script>
+</body>
+</html>

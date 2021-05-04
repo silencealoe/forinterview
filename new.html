@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 实现一个new 
+        // new 的作用
+        // 生成一个新的对象
+        // 将构造函数中的this指向新对象，并执行构造函数
+        // 将新对象的__proto__ 指向 函数的prototype
+        // 简版
+        // prototype 是函数专有属性，通过bind()绑定的函数没有这个属性，这个属性指向函数的原型对象
+        // 主流浏览器在每个对象上都支持一个属性__proto__  会指向该对象的原型（将对象与该对象的原型相连）
+        function myNew(fn, ...args){
+            const tempObj = {}
+            tempObj.__proto__ = fn.prototype
+            fn.apply(tempObj, args)
+            return tempObj
+        }
+        function Test(name, age) {
+            this.name = name
+            this.age = age
+        }
+        Test.prototype.func = function() {
+            console.log('name is')
+        }
+        const n = myNew(Test, 'xiaoming', 12)
+        console.log(n.name)
+        console.log(n.age)
+        n.func()
+    </script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @return {ListNode}
+ */
+ function ListNode(val, next) {
+     this.val = (val===undefined ? 0 : val)
+     this.next = (next===undefined ? null : next)
+}
+const d = new ListNode(3)
+const c = new ListNode(2, d)
+const b = new ListNode(2, c)
+const a = new ListNode(1, b)
+
+    var deleteDuplicates = function(head) {
+        // const record = {}
+        // record[head.val] = true
+        // let resNode = new ListNode()
+        // head = head.next
+        // let curList = resNode
+        let c = head
+        let h = c
+        while(c && c.next) {
+            if (c.val === c.next.val) {
+                c.next = c.next.next
+            } else {c
+                c = c.next
+            }
+        }
+        return h
+    }
+    console.log(deleteDuplicates(a))
+    </script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        Array.prototype.myflat = function(num) {
+            if(!Array.isArray(this)) {
+                return
+            }
+            let result = []
+            this.forEach(item => {
+                if(Array.isArray(item)) {
+                    num--
+                    if(num < 0) {
+                        let newArr = result.push(item)
+                        return newArr
+                    }
+                    result.push(...item.myflat(num))
+                } else {
+                    result.push(item)
+                }
+            })
+            return result
+        }
+        const arr = [[1, 2, [3, 4, [7]]], 5, 6]
+        console.log(arr.myflat(Infinity))
+        console.log(arr.myflat(2))
+    </script>
+</body>
+</html>

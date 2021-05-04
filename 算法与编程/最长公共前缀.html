@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+    <body>
+        <script>
+            // 字符串最长公共前缀
+            // 输入：strs = ["flower","flow","flight"]
+            // 输出："fl"
+            function longestCommonPrefix (strs) {
+                let res = ''
+                let j = 0
+                while(j < strs[0].length) {
+                    for (let i = 1; i < strs.length; i++) {
+                        if (strs[i][j] !== strs[0][j]) {
+                            return res
+                        }
+                    }
+                    res += strs[0][j]
+                    j++
+                }
+                // return res
+            }
+            const strs = ["aflower","flow","floight"]
+            const res =  longestCommonPrefix(strs)
+            console.log('common', res)
+        </script>
+    </body>
+    </html>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var arr = new Array('red', 1, 2, 'green')
+        console.log(arr) // []
+        console.log(arr.length) 
+        console.log(arr.reverse())
+        var sortArr = [10,'common', 1, 5, 'b','ver', 22, 80, 0, 'week']
+        sortArr.sort()
+        console.log( sortArr.sort())
+        var numberArr = [10, 3, 20, 15, 6]
+        var resultArr = numberArr.sort(function(num1, num2){
+            return num2 - num1
+        })
+        // 返回负数， 第一个数应该排在第二个数前面
+        // 返回正数， 第一个数应该排在第二个的后面
+        // 返回0， 两个数相等
+        console.log(resultArr)
+    </script>
+</body>
+</html>

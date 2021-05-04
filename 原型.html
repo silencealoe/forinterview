@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 什么是原型？原型链？
+        // 每一个JavaScript对象(null除外)在创建的时候就会与之关联另一个对象，这个对象就是我们所说的原型，每一个对象都会从原型"继承"属性
+        function Foo() {
+            console.log(Foo.prototype === this.__proto__ )
+            console.log(Foo.prototype.constructor === Foo) // Foo
+            console.log(Foo.__proto__ === Function.prototype) // Function.prototype
+            console.log(Foo.prototype.__proto__ === Object.prototype) // Object.prototype
+        }
+        const a = new Foo()
+        // a.__proto__ === Foo.prototype
+    </script>
+</body>
+</html>

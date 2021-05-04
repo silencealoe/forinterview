@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 实现call
+        // es6 使用剩余参数和展开运算符
+        var name = 'zhangsan'
+        var obj = {
+            name: 'xiaoming'
+        }
+        Function.prototype.mycall = function(context, ...args){
+            var context = context || window
+            context.fn = this
+            context.fn(...args)
+        }
+        function testFunc(age, say){
+            console.log(say + ', my name is ' + this.name + 'and age is ' + age)
+        }
+        console.log('obj', obj)
+        // testFunc.mycall(obj, 20, 'hello')
+        // 实现apply
+        Function.prototype.myApply = function(context, args) {
+            if(!Array.isArray(args)) {
+                throw new Error('args is not a array')
+            }
+            var context = context || window
+            context.fn = this
+            context.fn(...args)
+        }
+        // testFunc.myApply(obj, [20, 'hello'])
+
+        Function.prototype.mybind = function(context, ...args){
+            var context = context || window
+            context.fn = this
+            return function(){
+                context.fn(...args)
+            }
+        }
+        var bindFun = testFunc.mybind(obj, 201, 'hello')
+        bindFun()
+    </script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        class Parent{
+            static parentVal = 10
+            constructor(){
+                this.name = 'parent'
+                this.money ="500yuan"
+            }
+            getName() { // 实例方法 相当于 Parent.prototype.getName = function(){}
+                console.log('cur name', this.name)
+                this.name = 'xiaohong'
+                return 'test'
+            }
+            static parentStatic() {
+                console.log('parent--', this.name)
+                return this.name
+            }
+        }
+        // console.log(Parent.parentVal)
+        Parent.parentStatic()
+        class Child extends Parent{
+            constructor () {
+                // super()作为函数使用时，只能在子类的构造函数中使用 相当于Parent.prototype.constructor.call(this)
+                super() // 字类的构造函数中必须先调用super()才能生成子类的this, 才能实例化this
+                this.age = 18 // 只有调用super()之后，才可以使用this，否则报错
+                this.name = 'child'
+            }
+            getAge() { // 在子类中调用父类方法，父类方法中的this指向子类实例
+                console.log('cur age', this.age)
+                // super作为对象在普通函数中使用，表示Parent.prototype
+                const res = super.getName()
+                console.log('name', this.name)
+            }
+            static childStatic(){ //静态方法是类的方法
+                // super作为对象在静态方法中使用时，表示Parent
+                console.log('STATIC', super.parentStatic())
+            }
+        }
+        Child.childStatic()
+
+        let c = new Child()
+        let p = new Parent()
+        console.log(Child.__proto__ === Parent) // true
+        console.log(Child.prototype.__proto__ === Parent.prototype) // true
+        // c.getAge()
+        console.log(c)
+        // c.getName()
+    </script>
+</body>
+</html>

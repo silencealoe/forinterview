@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 所有对象及包装对象都有toString()和valueOf()方法
+        // toString()
+        // 基本包装类型 Boolean String Number
+        // 基本包装类型没有任何方法，但是在读取的时候，会创建一个对应的包装类型对象，从而可以调用toString()等方法，
+        // 由此基本包装类型调用toString()最后返回了其对应的字符串
+        // 数字类型的toString()方法接收参数表示转换的基数，不指定参数，则按照十进制转换
+        // toString()方法和转型函数String()的区别：
+        // String()函数可接收undefined和null作为参数，并将其转换为字符串
+        // String()无法接收一个数字作为基数进行进制转换
+
+        // valueOf()
+        // valueOf()方法会将对象转换为基本类型，如果无法转换为基本类型，则返回原对象
+        // Date类型返回日期的毫秒数
+
+
+        // typeof 
+        // 缺点： 检测数组和null都返回的Object， 影响了检测真正的数组 typeof function(){} === 'funciton'  
+
+        // 检测数组的几种方式：
+        // a instanceof A: 检测a是否是A的实例 
+        // 区分自定义类型
+        let arr = [1,2,3]
+        console.log(arr instanceof Array)
+        // 缺点： [] instanceof Object  true
+        // 原型可能被拦截重写 ，这样也可能导致判断不准确
+        function Test() {}
+        Test.prototype = Object.create(Array.prototype)
+        let t = new Test()
+        console.log('is',t,  t instanceof Array) // true
+
+        // constructor  判断构造函数是否是Array来判断 构造函数可以被修改
+        console.log(arr.constructor === Array) 
+        console.log(t.constructor === Array) // true
+
+        // Object.prototype.toString.call([]) // '[object array]'
+        //toString()返回反映这个对象的字符串, 数组，函数等对toString()进行了重写, 根据原型链知识，调用的是重写后的方法，所以应该使用Object原型上的方法
+
+        // Array.isArray() 这个方法在低版本的 IE 的浏览器中是不支持的。
+
+    </script>
+</body>
+</html>

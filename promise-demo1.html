@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<script>
+//  Promise其实就是一个类, 构造函数，内部保存着回调队列，通过暴露resolve和reject方法触发对应回调
+// 内部有三种状态值，pending，fulfiled，failed
+// Promise是微任务，与settimout等宏任务有差别，执行顺序时是，先主线程，然后微任务，然后宏任务
+// 有以下几种方法：then, catch, all, race, resolve, reject
+// 一旦实例了一个Promise，其就一定会执行，无法停止
+// Promise中，由于报错也会触发reject，所以不会中断程序
+// catch其实是then的语法糖，相当于then（null，rej），即成功回调传了空
+// 如果then中，没有传入回调，则promise的resolve或reject值会传递到下一个then或catch中，如下：
+    function myPromise(func) {
+        this.status = 'pending'; // 状态
+        this.value = null; // 值
+        this.resolveList = []; // 成功回调
+        this.rejectList = []; // 失败回调
+        
+        const resolve = (data) => {
+            if (this.status === 'pending') {
+                this.status = 'fulfiled';
+                this.value = data;
+                this.resolveList.forEach((resFunc) => resFunc(data));
+                this.resolveList.length = 0;
+            }
+        };
+        
+        const reject = (data) => {
+            if (this.status === 'pending') {
+                this.status = 'failed';
+                this.value = data;
+                // console.log('value fulfilled', this.value)
+                this.rejectList.forEach((resFunc) => resFunc(data));
+                this.rejectList.length = 0;
+            }
+        };
+        
+        if (typeof func === 'function') {
+            try {
+                func(resolve, reject); // promise传入的func是马上执行的，但回调resolve和reject是异步微任务
+            } catch(err) {
+                reject(err);
+            }
+        }
+    }
+    function handleResolve(res, rej, resCb, rejCb, value) {
+        queueMicrotask(() => {
+            // 如果没有定义回调，将值传递给下一个
+            try {
+                const ret = typeof resCb === 'function' ? resCb(value) : value;
+                // console.log('reslove')
+                // console.log('ret', ret)
+                if (ret instanceof myPromise) {
+                    ret.then(res, rej);
+                } else {
+                    // console.log('no promise', ret)
+                    res(ret);
+                    // ret(value)
+                }   
+            } catch (err) {
+                rej(err);
+            }
+        });
+    }
+
+    function handleReject(res, rej, resCb, rejCb, value) {
+        queueMicrotask(() => {
+            // 如果没有定义回调，将值传递给下一个
+            try {
+                const ret = typeof rejCb === 'function' ? rejCb(value) : value
+                if (ret instanceof myPromise) {
+                    ret.then(res, rej);
+                } else {
+                    rej(ret);
+                }   
+            } catch (err) {
+                rej(err);
+            }
+        });
+    }
+
+// then方法定义在原型链上，返回一个promise, pending时将回调 添加到回调队列中，同时Promise化，fulfilled或failed时直接执行，并返回promise
+myPromise.prototype.then = function (resCb, rejCb) {
+    // console.log('reject1', this, resCb)
+    if (this.status === 'pending') {
+        return new myPromise((res, rej) => {
+            this.resolveList.push(() => {
+                handleResolve(res, rej, resCb, rejCb, this.value)
+            });
+            this.rejectList.push(() => {
+                handleReject(res, rej, resCb, rejCb, this.value)
+            })
+        })
+    } else if (this.status === 'fulfiled') {
+        return new myPromise((res, rej) => { // res rej 下一次调用then传递的回调
+            // console.log('fulfill===', this)
+            handleResolve(res, rej, resCb, rejCb, this.value) // 本次调用then传递的回调
+        })
+    } else if (this.status === 'failed') {
+        return new myPromise((res, rej) => {
+            handleReject(res, rej, resCb, rejCb, this.value)
+        })
+    }
+}
+// myPromise.prototype.then(null, rej) 的语法糖
+myPromise.prototype.catch = function(rej){
+     return myPromise.prototype.then.call(this, null, rej) 
+} 
+
+// all 
+// 传入一个数组，输出一个promise，全部resolve时，输出promise状态变为fulfiled，触发resolve
+// 当任何一个传入的promise失败时，输出promise状态变failed，触发reject，
+// 但并不会终止其他promise继续执行，只是其他promise的执行已经不会影响promise.all返回promise的状态了
+myPromise.all = function(promiseArr){
+    const len = promiseArr.length
+    const result = []
+    return new myPromise((resolve, reject) => {
+        let index = 0
+        promiseArr.forEach((item) => {
+            item.then((data) => {
+                result.push(data)
+                index++
+                if (index === len) resolve(result)
+            }, (err) => {
+                reject(err)
+            })
+        })
+    })
+}
+var tempArr = [new Promise((resolve, reject)=>{
+    resolve('1a')
+}), new Promise((resolve, reject)=> {
+    reject('2b')
+})]
+myPromise.all(tempArr).then(res => {
+    console.log('all--', res)
+}).catch(err => {
+    console.log('all-catch', err)
+})
+Promise.all(tempArr).then(res=> {
+    console.log('real-all', res)
+}).catch(err => {
+    console.log('real-catch-all', err)
+})
+
+// race 返回promise数组中第一个执行完毕的状态，无论是fulfiled还是failed，但不影响数组中其余promise继续执行
+var tempRaceArr = [
+    new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve('1000')
+        }, 1000)
+    }),
+    new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve('500')
+        }, 500);
+    })
+]
+Promise.race(tempRaceArr).then(res => {
+    console.log('real race', res)
+})
+myPromise.race = function(promiseArr) {
+    return new myPromise(function(resolve, reject){
+        promiseArr.forEach(item => {
+            item.then(data => {
+                resolve(data)
+            }, err=> {
+                reject(err)
+            })
+        })
+    }) 
+}
+myPromise.race(tempRaceArr).then(res => {
+    console.log('my promise', res)
+})
+// 外部resolve, reject
+myPromise.resolve = function(data){
+    return new myPromise((resolve, reject) => {
+        resolve(data)
+    })
+};
+// test
+var ps = myPromise.resolve('outside resolve')
+ps.then(res => {
+    console.log('out side --', res)
+})
+// 
+myPromise.reject = (data) => {
+    return new myPromise((resolve, reject) => {
+        reject(data);
+    });
+};
+// test
+var pj = myPromise.reject('outside reject')
+pj.catch(err => {
+    console.log('out side reject catch', err)
+})
+//---
+// done() 处于回调链的末端，能捕获到任何可能出现的错误
+myPromise.prototype.done = function (onFulfilled, onRejected) {
+    this.then(onFulfilled, onRejected).catch(function(reason){
+        setTimeout(function(){
+            console.log('done')
+            throw reason
+        }, 0)
+    })
+}
+
+// finally()  不管Promise对象最后状态如何都会执行操作
+myPromise.prototype.finally = function (callback){
+    console.log(this.constructor.resolve)
+    let p = this.constructor
+    return this.then(
+        value => p.resolve(callback()).then(() => value),
+        reason => p.resolve(callback()).then(() => {throw reason})
+    )
+}
+console.log('111start')
+setTimeout(()=>{
+    console.log('settimeout')
+}, 0)
+var p = new myPromise((resolve, reject)=>{
+    var m = 'success'
+    resolve(m)
+})
+p.then(res => {
+    console.log('then--', res)
+    return res+'!!!!'
+}).then(res => {
+    console.log('then2--', res)
+}).catch((err) => {
+    console.log('catch--done', err)
+}).catch((err) => {
+    console.log('catch2-done', err)
+}).finally(() => {
+    console.log('finally!!!')
+}).done()
+
+</script>
+<script> // 是一个代码块 代码块间相互独立，但变量和方法共享
+    console.log('222script')
+    var p = new myPromise((resolve, reject)=>{
+        var m = 'success'
+        resolve(m)
+    })
+    p.then(res => {
+        console.log('then--', res)
+    }).catch((err) => {
+        console.log('catch--', err)
+    })
+
+
+    // vue nextTick(()) 原理
+    // 在下次dom更新之后执行回调
+    // vue在修改数据的时候不会立马更新，会等同一事件循环中所有数据变更完之后再统一进行视图更新
+</script>
+</body>
+</html>

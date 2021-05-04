@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var a = 10.2
+        function test(){
+            console.log(a) // undefined
+            a=15.8
+            console.log(a) // 15.8
+            console.log(this.a) // 10.2
+            var a;
+            console.log(a) // 15.8
+            var b = 5.6
+            if(10.2 + b === a) {
+                return 30
+            }
+        }
+        var c = test()
+        console.log('final', c) // undefined
+        'use strict';
+        function test2() {
+            console.log(this) // 指向window 在严格模式下调用test2（）不影响this的绑定
+        }
+        var f = 10
+        function test3() {
+            var f = 30
+            return function(){
+                f = 20
+                return f
+            }
+        }
+        var d = test3()()
+        var e = test2() // unde
+        console.log(f, d, e) // 10, 20, unde
+// ---------------------------------------------
+        // 'use strict'
+        // 当通过对象访问属性和方法时，会优先搜索对象本身的方法和属性，不存在时才会向上访问原型对象和方法
+        function Func () {
+            this.a = 1
+            this.testFunc = function(){
+                console.log('self', this.a) // 1
+            }
+        }
+        Func.prototype.a = 2
+        Func.prototype.testFunc = function() {
+            console.log('this', this.a) // 1
+        }
+        var t = new Func()
+        var a = 4
+        t.testFunc()
+        Func()
+        console.log(a) // 1
+        console.log(t.a) // 1
+
+
+
+//------------------------------- 获取url中的参数
+    function getUrlParam(sUrl, sKey) {
+        var tempUrl = sUrl.substring(sUrl.indexOf('?')+1, sUrl.indexOf('#'))
+        if(!sKey) {
+            var result = {}
+            tempUrl && tempUrl.split('&').forEach(item => {
+                var arr = item.split('=')
+                if(arr[0] in result) {
+                    result[arr[0]].push(arr[1])
+                } else {
+                    result[arr[0]] = [arr[1]]
+                }
+            })
+            return result
+        }
+        if(!tempUrl) return ''
+        var keyArr = tempUrl.split('&')
+        var resArr = []
+        console.log('resArr', keyArr)
+        keyArr.forEach(item=> {
+            const tempKey = item.split('=')
+            if(tempKey[0] === sKey) {
+                resArr.push(tempKey[1])
+            }
+        })
+        if(resArr.length === 0) return ''
+        if(resArr.length > 1){
+            return resArr
+        } else {
+            return resArr[0]
+        }
+    }
+var test = getUrlParam('http://www.nowcoder.com?key=1&key=2&key=3&test=4#hehe', 'test')
+console.log(test)
+// 存在父节点
+var parent = document.createElement('div')
+var childA = document.createElement('div')
+var childB = document.createElement('div')
+parent.append(childA)
+parent.append(childB)
+console.log(childA.parentNode)
+console.log(parent.contains(childA))
+console.log(parent.contains(childB))
+console.log(parent.parentNode)
+
+function commonParentNode(oNode1, oNode2) {
+    if(oNode1.contains(oNode2)) return oNode1
+    if(oNode2.contains(oNode1)) return oNode2
+   var parent1 = oNode1.parentNode
+   var parent2 = oNode2.parentNode
+   if(!parent1 || !parent)  return null
+   if(parent1.contains(oNode2)) {
+       return parent1
+   }
+   if(parent2.contains(oNode1)) {
+       return parent2
+   } 
+   else {
+       commonParentNode(parent1, parent2)
+   }
+}
+
+// 数组去重
+Array.prototype.uniq = function () {
+    console.log(this)
+}
+var testArr = [1,2,3]
+console.log(testArr.uniq())
+    </script>
+</body>
+</html>

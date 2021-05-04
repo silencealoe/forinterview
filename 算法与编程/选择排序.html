@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 选择排序
+        // 第一轮，找出数组中最小的数，将第一项和最小的数互换位置。第二轮找到除第一项最小的数，和第二项互换位置，依次类推
+        function selectSort(arr) {
+            if (!Array.isArray(arr) || arr.length===0) {
+                return arr
+            }
+            let min = 0
+            for(let j = 0; j < arr.length;j++) { // 执行arr.length次
+                for (let i = j + 1; i < arr.length; i++) { // 比较
+                    if(arr[i] < arr[min]) {
+                        min = i
+                    }
+                }
+                const temp = arr[j]
+                arr[j] = arr[min]
+                arr[min] = temp
+            }
+            return arr
+        }
+        const testArr = [22, 12, 44, 35, 6, 17, 90, 109, 8, 41]
+        const res = selectSort(testArr)
+        console.log('aaaa', res)
+    </script>
+</body>
+</html>

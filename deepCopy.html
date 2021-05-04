@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // JSON.parse(JSON.stringify()) 作为深拷贝的缺点：
+        // 如果json里有 function,undefined，则序列化的结果会把 function,undefined 丢失
+        // 如果json里有NaN、Infinity和-Infinity，则序列化的结果会变成null
+        // 如果json里有对象是由构造函数生成的，则序列化的结果会丢弃对象的 constructor
+        // 如果对象中存在循环引用的情况也无法实现深拷贝
+        // 如果json里面有时间对象，则序列化结果：时间对象=>字符串的形式
+        // 如果json里有RegExp、Error对象，则序列化的结果将只得到空对象 RegExp、Error => {}
+
+
+
+        // 实现一个深拷贝函数
+        // function deepCopy(){
+        //     console.log('1', arguments)
+        // }
+        const arrow = (...rest) => {
+            // console.log('2', arguments) // 箭头函数没有 arguments
+            console.log('2', rest) // 箭头函数没有 arguments 可以使用剩余参数来获取参数
+        }
+        // deepCopy()
+        arrow(1,2,3)
+        // 浅拷贝： 只能拷贝第一层，其他还是使用同一个内存地址
+        function cloneShallow (source) {
+            const target = {}
+            Object.keys(source).forEach(key => {
+                target[key] = source[key]
+            }) // 得到第一层的key
+            return target
+        }
+        const a = {
+            name: 'xiaoming',
+            age: 20,
+            project: {
+                name: 'chinese',
+                score: {
+                    grade: 80
+                }
+            }
+        }
+        const tar = cloneShallow(a)
+        tar.name = 'lihua'
+        tar.project.name = 'math'
+        console.log('target', tar)
+        console.log('source', a)
+
+        function isObjectORArray(source) {
+            return typeof source === 'object' && source !== null
+        }
+
+        function deepClone(source, hash = new WeakMap()) { // hash存储已经拷贝的对象
+            if (!isObjectORArray(source)) {
+                return source
+            }
+            let target = Array.isArray(source) ? [] : {}
+            for(let key in source) {
+                // console.log(key)
+                if (source.hasOwnProperty(key)) { // 防止原型链上的属性被遍历到
+                    if (isObjectORArray(source[key])) {
+                        target[key] = deepClone(source[key])
+                    } else {
+                        target[key] = source[key]
+                    }
+                }
+            }
+            return target
+        }
+        const bar = [
+                {
+                    name: 'daming',
+                    age: 22,
+                    hobby: {
+                        sports: 'run',
+                        study: 'en'
+                    }
+                },
+                {
+                    name: 'xiaohua',
+                    age: 12,
+                    hobby: {
+                        sports: 'baseball',
+                        study: 'ch'
+                    }
+                }
+            ]
+        const res = deepClone(bar)
+        res[0].hobby.study = 'meishu'
+        console.log('deep11', res)
+        console.log('deep222', bar)
+
+
+    </script>
+</body>
+</html>
