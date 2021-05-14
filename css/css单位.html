@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html{
+            font-size: 62.5%;
+        }
+        .rem-style {
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div>我是单位</div>
+    <!-- 浏览器默认字体大小16px -->
+    <!-- px: 绝对长度单位 像素点. 页面按照精确像素展示  在移动设备中，存在像素比，px实际大小不确定
+    em： 相对单位长度 相对于当前文本内的字体尺寸大小, 若未设置字体大小 1em = 16px
+        为了简化换算 在body选择器中声明 font-size = 62.5%  em值就是16px* 62.5% = 10px 12px = 1.2em
+        特点： 
+            em值不固定
+            会继承父级元素的大小 
+    rem: 相对长度单位 相对于html根元素大小 与em不同的是 em相对于当前元素的大小， rem是相当于根元素 在html中设置 font-size: 62.5%; 1rem = 10px 1.2rem = 12px
+    vw,vh: 窗口的可视宽度， 分为100vw， 50vw表示一半 移动端指的是布局视口 
+    百分比 % ： 宽度相对于父元素  普通定位元素 相对于父元素 绝对定位元素相对于已经定位的父元素， 固定定位元素相对于viewport 可视窗口
+
+    设备像素（物理像素） pt：  设备能控制的显示的最小物理单位，设备像素点大小固定不变
+    设备独立像素(虚拟像素)：通过程序控制的虚拟像素，包括css像素  window.screen.width/ window.screen.height 通常表示电脑得分辨率 1920 X 1080
+    设备像素比(device pixel ratio) dpr： 1个虚拟像素换算成几个物理像素  window.devicePixelRatio  dpr = 设备像素 / 设备独立像素
+            当设备像素比为1:1时，使用1（1×1）个设备像素显示1个CSS像素
+            当设备像素比为2:1时，使用4（2×2）个设备像素显示1个CSS像素
+            当设备像素比为3:1时，使用9（3×3）个设备像素显示1个CSS像素
+
+    英寸像素（像素密度）ppi： 每英寸包含的像素点， ppi =  (根号下x^2+y^2) / 屏幕尺寸 x y 表示分辨率
+    -->
+    <div class="rem-style">测试测试是是是</div>
+
+</body>
+</html>

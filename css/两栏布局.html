@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .left{
+            width: 200px;
+            height: 600px;
+            background: chocolate;
+            float: left;
+        }
+        .right{
+            height: 600px;
+            background: lemonchiffon;
+            overflow: hidden;
+        }
+        .box{
+            display: flex;
+            /* 高度自动 */
+            align-items: flex-start;
+            /* align-items: stretch;  此属性使所有列等高*/
+        }
+        .left-flex {
+            width: 200px;
+            height: 600px;
+            background: chocolate;
+        }
+        .right-flex {
+            flex: 1;
+            /* height: 400px; */
+            background: lemonchiffon;
+        }
+    </style>
+</head>
+<body>
+    <!-- 两栏布局，左侧宽度固定，右侧宽度自适应 -->
+    <!-- 浮动 -->
+    <!-- <div class="left">side</div>
+    <div class="right">main</div> -->
+    <!-- flex -->
+    <div class="box">
+        <div class="left-flex">side</div>
+        <div class="right-flex">main</div>
+    </div>
+    <!-- 三列布局 中间自适应宽度 两边宽度固定 -->
+</body>
+</html>

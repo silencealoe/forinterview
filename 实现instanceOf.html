@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function Test() {
+        }
+        let t = new Test()
+        function myInstanceOf(leftObj, rightFunc) {
+            if (typeof rightFunc !== 'function') {
+                return false
+            }
+            while(true) {
+                if (leftObj === null) {
+                    return false
+                }
+                if(leftObj.__proto__ = rightFunc.prototype) {
+                    return true
+                }
+                leftObj = leftObj.__proto__
+            }
+        }
+        console.log(myInstanceOf(t, Test))
+        const arr = function () {}
+        console.log(myInstanceOf(arr, Function))
+        console.log(arr instanceof Function)
+    </script>
+</body>
+</html>

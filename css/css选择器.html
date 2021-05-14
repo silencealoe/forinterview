@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 
+        选择器 
+                
+                id选择器 #box
+                类选择器 .box
+                标签选择器 div
+                后代选择器 .box p 
+                子选择器 .box > p
+                相邻同胞选择器 .one+.two 紧跟在one后的所有two
+                群组选择器 div,p div和p元素
+                伪类选择器 :link :hover
+                伪元素选择器 :first-child :before :after
+                属性选择器 
+                        [attribute] 选择带有attribute属性的元素
+                        [attribute=value] 选择所有使用attribute=value的元素
+                        [attribute~=value] 选择attribute属性包含value的元素
+                        [attribute|=value]：选择attribute属性以value开头的元素
+                层次选择器 p ~ ul: 选择前面有p元素的每个ul元素
+
+        权重： 
+                从0开始，一个行内样式+1000，一个id选择器+100，一个属性选择器、class或者伪类+10，一个元素选择器，或者伪元素+1，通配符+0
+                权重越大， 优先级越高， 相同权重， 写在后面的覆盖前面的
+
+        优先级  : 行内样式 （A）> id （B） >  属性选择器 class 伪类 （C） > 元素标签 伪元素 （D） > 通配符 *
+                 计算方式：
+                 存在内联样式 A = 1， 否则A = 0
+                 B 等于id选择器出现的次数 
+                 C 等于属性选择器 class 伪类出现的总次数
+                 D 的值等于 标签选择器 和 伪元素 出现的总次数
+
+                 结果(A, B, C, D)  
+                 从左往右依次进行比较 ，较大者优先级更高
+                如果相等，则继续往右移动一位进行比较
+                如果4位全部相等，则后面的会覆盖前面的
+        继承属性
+
+            可继承的样式
+                字体系列  (a标签的字体颜色不能继承， h1-h6标签字体的大下也是不能被继承的)
+                文本系列
+                可见性visibility 
+                列表属性
+                光标属性
+            无继承样式
+                display
+                vertical-align、text-decoration
+                盒子模型属性
+                背景属性
+                定位属性
+                轮廓样式
+    -->
+</body>
+</html>

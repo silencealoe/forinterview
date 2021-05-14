@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 判断两个值是否相等
+        // == 存在类型转换问题
+        // ===  (NaN === NaN) false (+0 === -0) true 
+        // Object.is() (NaN === NaN) true (+0 === -0) false
+
+        // Object.is()
+        // 都是 undefined
+        // 都是 null
+        // 都是 true 或 false
+        // 都是相同长度的字符串且相同字符按相同顺序排列
+        // 都是相同对象（意味着每个对象有同一个引用）
+        // 都是数字且
+        // 都是 +0
+        // 都是 -0
+        // 都是 NaN
+        // 或都是非零而且非 NaN 且为同一个值
+        
+        function ObjectIs(a, b) {
+            if (a === b) {
+                // +0 === -0 // true
+                // 1  / +0   Infinity
+                // 1  / -0   -Infinity
+                // 0 / 0 NaN
+                // Infinity === -Infinity false
+                // Infinity === Infinity
+                return a!== 0 || 1 / a === 1 / b
+            } else {
+                return a!==a && b!==b
+            }
+        }
+        ObjectIs(+0, -0) // false
+
+        // 当字符串是数字字符串时，使用 - * / 会将字符串转换为数值类型
+        console.log('12' * 2) // 24
+        console.log('12' - 2) // 10
+        console.log('12' / 2) // 6
+        console.log('12' / 2) // 6
+        console.log('12' * -0) // -0
+        console.log('12'-0) // 12
+        console.log('12' * +0) // 0
+    </script>
+</body>
+</html>

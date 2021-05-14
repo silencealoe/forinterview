@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .center-margin{
+            width: 200px;
+            height: 200px;
+            border: 1px solid black;
+            position: absolute;
+            left:50%;
+            top:50%;
+            /* margin-left: -100px ; 需要知道子元素自身的宽高*/
+            /* margin-top: -100px ; */
+            transform: translate(-50%, -50%); 
+            /* 不需要知道子元素自身宽高 自动自身元素的百分比*/
+        }
+        .father {
+            width: 500px;
+            height: 800px;
+            border: 2px solid rosybrown;
+            position: relative;
+        }
+        .center-auto {
+            width: 200px;
+            height: 200px;
+            border: 1px solid black;
+            position: absolute;
+            left:0;
+            top:0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            /* 不需要知道子元素自身宽高 */
+            /* 四个定位属性的值都设置了0，那么这时候如果子级没有设置宽高，则会被拉开到和父级一样宽高 */
+            /* 这里子元素设置了宽高，所以宽高会按照我们的设置来显示，但是实际上子级的虚拟占位已经撑满了整个父级，这时候再给它一个margin：auto它就可以上下左右都居中了 */
+        }
+        .father-table {
+            display: table-cell;
+            width: 500px;
+            height: 800px;
+            border: 2px solid rosybrown;
+            text-align: center;
+            vertical-align: middle;
+        }
+        .son{
+            width: 200px;
+            height: 200px;
+            border: 1px solid black;
+            display: inline-block;
+        }
+        .father-flex {
+            width: 500px;
+            height: 800px;
+            border: 2px solid rosybrown;
+            /* display: flex; */
+            display: grid;
+            justify-content: center;
+            align-items: center;
+        }
+        .flex-son {
+            width: 200px;
+            height: 200px;
+            border: 1px solid black;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- 垂直水平居中 -->
+    <!-- 居中元素宽高已知 -->
+    <!-- <div class="father"> -->
+        <!-- <div class="center-auto">margin:auto</div> -->
+        <!-- <div class="center-margin">margin负值 transform</div> -->
+    <!-- </div> -->
+    <!-- table布局 -->
+    <!-- <div class="father-table">
+        <div class="son">table布局</div>
+    </div> -->
+    <!-- flex弹性布局 -->
+    <div class="father-flex">
+        <div class="flex-son">flex垂直水平居中</div>
+    </div>
+</body>
+</html>
