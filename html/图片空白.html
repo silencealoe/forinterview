@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .img-box {
+            border: 2px solid red;
+            /* 解决1： 包裹元素设置font-size:0 */
+            /* font-size: 0;  */
+            /* display: inline-block; */
+        }
+        img{
+            /* 图片默认的vertical-align:baseline(基线) 与y基线对齐 所以在垂直方向会有空白 */
+            /* 解决2：*/
+            /* display: block; */
+            /* 解决3：*/
+            /* vertical-align: middle; */
+        }
+        /* body{
+            margin: 0;
+            padding: 0;
+        } */
+        .outer-box {
+            width: 400px;
+            height: 400px;
+            background: darkcyan;
+            /* 解决1： 给父元素修改高度，添加padding */
+            /* padding: 20px;  */
+            /* 解决2： 给父元素添加overflow:hidden */
+            /* overflow: hidden; */
+            /* 解决3： 添加border */
+            /* border: 2px solid red; */
+            /* 解决4：给父元素或者子元素使用浮动 */
+            /* float: left; */
+            /* 解决5：父元素或者子元素 position 为absolute，fixed */
+            /* position: absolute; */
+            /* margin-top: 20px;  */
+        }
+        .inner-box {
+            width: 200px;
+            height: 200px;
+            background: yellowgreen;
+            /* float: left; */
+            /* border: 2px solid darkblue; */
+            margin-top: 50px;
+            /* position: absolute; */
+        }
+
+    </style>
+</head>
+<body>
+    <!-- <div class="img-box">
+        <img src="../../../../图片/微信图片_20200624231640.jpg" alt="yier.jpg" />
+    </div> -->
+
+    <!-- 父子嵌套重叠问题：
+        
+    -->
+    <div class="outer-box">
+        <div class="inner-box"></div>
+    </div>
+
+</body>
+</html>

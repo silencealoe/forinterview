@@ -25,7 +25,8 @@
                 leftObj = leftObj.__proto__
             }
         }
-        console.log(myInstanceOf(t, Test))
+        console.log(myInstanceOf(t, Function))
+        console.log(t instanceof Function)
         const arr = function () {}
         console.log(myInstanceOf(arr, Function))
         console.log(arr instanceof Function)

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 使对象可以使用for...of
+        // 法一
+        const obj = {
+            name: 'xiaoming',
+            age: 20
+        }
+        for(let name of Object.keys(obj)) {
+            console.log(name, obj[name])
+        }
+        // 法二 generator函数
+        function *gen (obj) {
+            for(let name of Object.keys(obj)) {
+                yield [name, obj[name]]
+            }
+        }
+        for(let [key, value] of gen(obj)) {
+            console.log(key, value)
+        }
+    </script>
+</body>
+</html>

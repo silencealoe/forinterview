@@ -128,6 +128,20 @@ Array.prototype.uniq = function () {
 }
 var testArr = [1,2,3]
 console.log(testArr.uniq())
+
+
+let map = new Map([['a', 'b'], [111, 123]])
+map.set('name', 'xiaoming')
+map.set({obj: '123'}, '13222')
+console.log(map)
+
+let set = new Set([1,2,34,5])
+console.log(set.size)
+let set2 = set
+set2.add('2')
+console.log(set)
+console.log(Object.prototype.toString.call(set)) // [Object Set]
+
     </script>
 </body>
 </html>

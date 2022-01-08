@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 
+        js 如何影响dom树构建
+        从网络传给渲染引擎的html文件流是不能被浏览器渲染引擎理解的，所以要将其转化为渲染引擎能够理解的内部结构（DOM）
+        DOM是生成页面的基础数据结构
+        js通过对DOM的操作可以改变文档结构，样式
+        Dom将web界面与js连接起来
+
+        dom树是怎么生成？
+        html解析器 负责将html文件流转换成dom结构
+        HTML 解析器并不是等整个文档加载完成之后再解析的，而是网络进程加载了多少数据，HTML 解析器便解析多少数据。
+
+        网络进程接收到响应头之后，会根据响应头中的 content-type 字段来判断文件的类型，
+        比如 content-type 的值是“text/html”，那么浏览器就会判断这是一个 HTML 类型的文件，
+        然后为该请求选择或者创建一个渲染进程。渲染进程准备好之后，网络进程和渲染进程之间会建立一个共享数据的管道，
+        网络进程接收到数据后就往这个管道里面放，而渲染进程则从管道的另外一端不断地读取数据，并同时将读取的数据“喂”给 HTML 解析器。
+        、你可以把这个管道想象成一个“水管”，网络进程接收到的字节流像水一样倒进这个“水管”，而“水管”的另外一端是渲染进程的 HTML 解析器，
+        它会动态接收字节流，并将其解析为 DOM。
+    
+    -->
+    <div>script start</div>
+    <script>
+        // while(true){}
+    </script>
+    <div>enddd</div>
+</body>
+</html>

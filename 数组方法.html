@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 实现数组得flat
+        Array.prototype.myFlat = function(n) {
+            if(!Array.isArray(this) || n <=0) {
+                return this
+            }
+            let res = []
+            for(let i = 0;i<this.length;i++) {
+                if(Array.isArray(this[i])) {
+                    n--
+                    if (n < 0) {
+                       res.push(...this[i])
+                       return res
+                    }
+                    res.push(...this[i].myFlat(n))
+                } else {
+                    res.push(this[i])
+                }
+            }
+            return res
+        }
+        const arr = [[1,2], [2,[3,4]]]
+        console.log(arr.myFlat(0))
+        console.log(arr.flat(0))
+
+        // 实现数组reduce
+        Array.prototype.myReduce = function(fn, init) {
+            let initVal = init || this[0]
+            const startIndex = init ? 0 : 1
+            for(let i = startIndex; i < this.length; i++){
+                initVal = fn(initVal, this[i], i, this)
+            }
+            return initVal
+        }
+        const arr2 = [1, 2, 3, 43]
+        const res1 = arr2.myReduce((pre, cur) => {
+            return pre + cur
+        }, 0)
+        console.log(res1)
+
+        // 实现数组得forEach
+        Array.prototype.myForEach = function(fn) {
+            for(let i =0; i<this.length;i++) {
+                fn(this[i], i, this)
+            }
+        }
+        arr2.myForEach((item, index) => {
+            console.log('forr', item, index)
+        })
+
+        // 实现数组filter
+        Array.prototype.myFilter = function(fn) {
+            let res = []
+            for(let i = 0; i < this.length; i++) {
+                const res = fn(this[i], i, this)
+                if(res) {
+                    res.push(this[i])
+                }
+            }
+            return res
+        }
+        const arr3 = [
+            {
+                name: 'xiaoming',
+                age: 20
+            },
+            {
+                name: 'yier',
+                age: 22
+            }
+        ]
+        const res3 = arr3.filter((item, index) => {
+            console.log('filter', item, index)
+            return item.age === 18
+        })
+        console.log(res3)
+        // 实现数组push
+        Array.prototype.myPush = function(...args) {
+            for(let i = 0; i<args.length;i++) {
+                this[this.length] = args[i]
+            }
+            return this.length
+        }
+        const pushArr = [1, 2, 3]
+        console.log(pushArr.myPush(...[5,6,7]))
+        console.log(pushArr)
+
+        // 实现数组pop
+        Array.prototype.myPop = function() {
+            const end = this[this.length - 1]
+            this[this.length - 1] = null
+            this.length = this.length - 1
+            return end
+        }
+        console.log(pushArr.myPop())
+        console.log(pushArr)
+
+        // 实现unshift 返回数组长度
+        const shiftArr = [1, 2, 3]
+        Array.prototype.myUnshift = function(...args) {
+            for (let i =0; i < args.length; i++) {
+                for(let j = this.length; j >= 0; j--) {
+                    this[j] = this[j - 1] // 位置右移
+                }
+                this[0] = args[i]
+            }
+            return this.length
+        }
+        console.log(shiftArr.myUnshift('a', 'b')) // 6
+        console.log(shiftArr) // [ 'b', 'a', 1, 2, 3]
+
+        // 实现数组shift
+        Array.prototype.myShift = function () {
+            const start = this[0]
+            for(let j = 0; j < this.length; j++) {
+                this[j] = this[j + 1] // 位置左移
+            }
+            this.length --
+            return start
+        }
+        console.log(shiftArr.myShift())
+        console.log(shiftArr)
+
+        // 实现数组splice
+        Array.prototype.mySplice = function (start, end, insert) {
+            const res = []
+            if (!start) return res
+            if (!end) {
+                for(let i = start; i < this.length; i++) {
+                    res.push(this[i])
+                    this.length--
+                }
+            }
+            return res
+        }
+        const spliceArr = [1, 2, 3, 4]
+        console.log(spliceArr.mySplice(2))
+        // console.log(spliceArr.splice(1, 3, 7)) // []
+        console.log(spliceArr)
+        // 实现数组slice 
+        Array.prototype.mySlice = function (start, end) {
+
+        }
+
+        // 实现数组sort
+        Array.prototype.sort = function (a, b) {}
+
+        // 实现数组 reverse
+        // 实现数组some
+        // every
+        // includes
+        // find
+        // findIndex
+
+    </script>
+</body>
+</html>

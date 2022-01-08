@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // async await  promise+generator 语法糖
+        // generator 可以暂停执行 可以恢复执行
+        // function* geneFunc() {
+        //     console.log('aa')
+        //     yield console.log('bbb') //2 通过yield关键字来暂停协程执行，并返回信息给父协程
+        //     console.log('eee')
+        //     yield console.log('ccc')
+        //     console.log('fff')
+        //     return 'end' // 通过return 关闭gen协程
+        // }
+        // var gen = geneFunc() // 1. 创建gen协程，并没有执行该协程
+        // gen.next() // 2。执行协程，需要调用next()方法
+        // console.log('dddd') // 3 执行主线程任务
+        // gen.next() // 4. 恢复gen协程的主线程控制权
+        // console.log(gen.next().value) // end 停止
+       // 当在 gen 协程中调用了 yield 方法时，JavaScript 引擎会保存 gen 协程当前的调用栈信息，并恢复父协程的调用栈信息。
+       //同样，当在父协程中执行 gen.next 时，JavaScript 引擎会保存父协程的调用栈信息，并恢复 gen 协程的调用栈信息
+
+       // 伪代码
+       //foo函数
+     
+        // async function Func1(){
+        //     return 2
+        // }
+        // console.log(Func1()) // Promise {resolved: 2}
+        
+        // // await
+        // async function foo2() {
+        //     console.log(1) // 2 输出 1
+        //     let a = await 100 // await 生成一个promise 并将该任务提交到微任务队列，暂停当前协程的执行，将控制权交给父协程
+        //     console.log(a)
+        //     console.log(2)
+        // }
+        // console.log(0) // 1. 首先输出0
+        // foo() // 开启foo协程
+        // console.log(3) // 3. 输出3
+        // 首先，执行console.log(0)这个语句，打印出来 0
+        // 紧接着就是执行 foo 函数，由于 foo 函数是被 async 标记过的，所以当进入该函数的时候，JavaScript 引擎会保存当前的调用栈等信息，然后执行 foo 函数中的console.log(1)语句，并打印出 1。
+        // 接下来就执行到 foo 函数中的await 100这个语句了， 当执行到await 100时，会默认创建一个 Promise 对象
+        //代码所示： let promise_ = new Promise((resolve,reject){ resolve(100)})
+        // 然后 JavaScript 引擎会暂停当前协程的执行，将主线程的控制权转交给父协程执行，同时会将 promise_ 对象返回给父协程。
+        // 主线程的控制权已经交给父协程了，这时候父协程要做的一件事是调用 promise_.then 来监控 promise 状态的改变。
+        // 接下来继续执行父协程的流程，这里我们执行console.log(3)，并打印出来 3
+        // 随后父协程将执行结束，在结束之前，会进入微任务的检查点，然后执行微任务队列，微任务队列中有resolve(100)的任务等待执行，执行到这里的时候，会触发 promise_.then 中的回调函数
+        // 该回调函数被激活以后，会将主线程的控制权交给 foo 函数的协程，并同时将 value 值传给该协程。
+        // foo 协程激活之后，会把刚才的 value 值赋给了变量 a，然后 foo 协程继续执行后续语句，执行完成之后，将控制权归还给父协程。
+        // 
+
+//         const getPromise = () => {
+//             return new Promise((resolve) => {
+//                 resolve('123')
+//             })
+//         }
+//         async function getid() {
+//             const type = '1'
+//             const obj = {
+//                 id: ''
+//             }
+//             switch(type) {
+//                 case '1':
+//                     const ids = await getPromise()
+//                     obj.id = ids 
+//                     break
+//                 default: 
+//                 obj.id = 'aaa'
+//                 break
+//             }
+//             return obj
+//         }
+//         const logdata = getid();
+//         logdata.then(res => {
+//             console.log('res', res)
+//         })
+//         console.log('loooo', logdata)
+
+        
+function* genDemo() {
+    console.log("开始执行第一段")
+    yield 'generator 2'
+
+    console.log("开始执行第二段")
+    yield 'generator 2'
+
+    console.log("开始执行第三段")
+    yield 'generator 2'
+
+    console.log("执行结束")
+    // return 'generator 2'
+}
+
+console.log('main 0')
+let gen = genDemo()
+console.log(gen.next().value)
+// console.log('main 1')
+console.log(gen.next().value)
+// console.log('main 2')
+console.log(gen.next().value)
+// console.log('main 3')
+console.log(gen.next())
+console.log('main 4')
+
+
+
+
+// function* foo() { 
+//            let response1 = yield fetch('http://rap2api.taobao.org/app/mock/232506/videolist') 
+//            console.log('response1 gen')
+//            console.log(response1)
+//            let response2 = yield fetch('http://rap2api.taobao.org/app/mock/232506/videolist')
+//            console.log('response2 gen')
+//            console.log(response2)
+//         }
+        //执行foo函数的代码
+        // let gen1 = foo() // 生成gen协程
+        // function getGenPromise(gen) {
+        //     return gen1.next().value  // 
+        // }
+        // console.log('aqwe', getGenPromise(gen1))
+        // getGenPromise(gen1).then((response) => { 
+        //     console.log('response1 pro')
+        //     console.log(response)
+        //     return getGenPromise(gen1)
+        // }).then((response) => {
+        //     console.log('response2 pro')
+        //     console.log(response)
+        // })
+        // 解析：
+        // 1. 首先执行的是let gen = foo()，创建了 gen 协程
+        // 2. 然后在父协程中通过执行 gen.next 把主线程的控制权交给 gen 协程
+        // 3. gen 协程获取到主线程的控制权后，就调用 fetch 函数创建了一个 Promise 对象 response1，然后通过 yield 暂停 gen 协程的执行，并将 response1 返回给父协程
+        // 4. 父协程恢复执行后，调用 response1.then 方法等待请求结果
+        // 5. 等通过 fetch 发起的请求完成之后，会调用 then 中的回调函数，then 中的回调函数拿到结果之后，通过调用 gen.next 放弃主线程的控制权，将控制权交 gen 协程继续执行下个请求。
+        
+        // async 异步执行 隐式返回promise
+
+
+
+// 
+   
+
+//  const pn = new Promise((resolve, reject) => {
+//     //  console.log('aaa200', 200)
+//      resolve(222)
+//  }).then(res => {
+
+//  })
+
+  
+//     async function foo() {
+//         console.log(1)
+//         let a = await 100
+//         console.log(a)
+//         console.log(2)
+//     }
+//     console.log(0)
+//     foo()
+//     console.log(3)
+
+async function func() {
+    return 2
+}
+func() // Promise{<fulfilled>:2}
+
+
+    function spawn(genF) {
+        return new Promise(function(resolve, reject) {
+            const gen = genF();
+            function step(nextF) {
+                let next;
+                try {
+                    next = nextF();
+                } catch(e) {
+                    return reject(e);
+                }
+                if(next.done) {
+                    return resolve(next.value);
+                }
+                Promise.resolve(next.value).then(function(v) {
+                    step(function() { return gen.next(v); });
+                }, function(e) {
+                    step(function() { return gen.throw(e); });
+                });
+            }
+            step(function() { return gen.next(undefined); });
+        });
+    }
+
+
+
+
+
+    </script>
+    
+</body>
+</html>

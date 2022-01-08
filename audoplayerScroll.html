@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .video-list-item{
+            padding: 0 20px;
+            border: 2px solid brown;
+            margin-bottom: 10px;
+        }
+        .title {
+            height: 50px;
+            line-height: 100px;
+        }
+        .video-wrap {
+            width: 100%;
+            height: 200px;
+            border-radius: 30px;
+            overflow: hidden;
+        }
+        video {
+            width: 100%;
+            height: 100%;
+        }
+        .video-footer{
+            height: 50px;
+            line-height: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="video-list">
+        <div class="video-list-item">
+            <div class="title">标题标题</div>
+            <div class="video-wrap">
+                <video
+                    class="video-tag"
+                    data-id="1"
+                    controls
+                    loop="loop"
+                    x5-playsinline
+                    playsinline="true"
+                    x-webkit-airplay="allow"
+                    webkit-playsinline="true"
+                    x5-video-player-type="h5"
+                    x5-video-player-fullscreen="true"
+                    poster="https://s2.pstatp.com/cdn/expire-1-M/byted-player-videos/1.0.0/poster.jpg"
+                    src="https://s2.pstatp.com/cdn/expire-1-M/byted-player-videos/1.0.0/xgplayer-demo-720p.mp4"
+                ></video>
+            </div>
+            <div class="video-footer">
+                视频描述
+            </div>
+        </div>
+        <div class="video-list-item">
+            <div class="title">标题标题</div>
+            <div class="video-wrap">
+                <video
+                    class="video-tag"
+                    controls
+                    loop="loop"
+                    data-id="2"
+                    x5-playsinline
+                    playsinline="true"
+                    x-webkit-airplay="allow"
+                    webkit-playsinline="true"
+                    x5-video-player-type="h5"
+                    x5-video-player-fullscreen="true"
+                    poster="https://s2.pstatp.com/cdn/expire-1-M/byted-player-videos/1.0.0/poster.jpg"
+                    src="https://s2.pstatp.com/cdn/expire-1-M/byted-player-videos/1.0.0/xgplayer-demo-720p.mp4"
+                ></video>
+            </div>
+            <div class="video-footer">
+                视频描述
+            </div>
+        </div>
+        <div class="video-list-item">
+            <div class="title">标题标题</div>
+            <div class="video-wrap">
+                <video
+                    class="video-tag"
+                    controls
+                    loop="loop"
+                    data-id="3"
+                    x5-playsinline
+                    playsinline="true"
+                    x-webkit-airplay="allow"
+                    webkit-playsinline="true"
+                    x5-video-player-type="h5"
+                    x5-video-player-fullscreen="true"
+                    poster="https://s2.pstatp.com/cdn/expire-1-M/byted-player-videos/1.0.0/poster.jpg"
+                    src="https://s2.pstatp.com/cdn/expire-1-M/byted-player-videos/1.0.0/xgplayer-demo-720p.mp4"
+                ></video>
+            </div>
+            <div class="video-footer">
+                视频描述
+            </div>
+        </div>
+        <div class="video-list-item">
+            <div class="title">标题标题</div>
+            <div class="video-wrap">
+                <video
+                    class="video-tag"
+                    controls
+                    loop="loop"
+                    x5-playsinline
+                    data-id="4"
+                    playsinline="true"
+                    x-webkit-airplay="allow"
+                    webkit-playsinline="true"
+                    x5-video-player-type="h5"
+                    x5-video-player-fullscreen="true"
+                    poster="https://s2.pstatp.com/cdn/expire-1-M/byted-player-videos/1.0.0/poster.jpg"
+                    src="https://s2.pstatp.com/cdn/expire-1-M/byted-player-videos/1.0.0/xgplayer-demo-720p.mp4"
+                ></video>
+            </div>
+            <div class="video-footer">
+                视频描述
+            </div>
+        </div>
+    </div>
+    <script>
+        const videoList = arrayLikeToArray(document.querySelectorAll('video'));
+        function onlyOneVideoCanPlay(video) {
+            videoList.forEach(item => {
+            console.log('item --1', item)
+            console.log('item --2', video)
+            if (item === video) {
+                item.play();
+            } else {
+                item.pause();
+            }
+            })
+        }
+        
+        function arrayLikeToArray(arrayLike) {
+            return Array.from(arrayLike);
+        };
+
+        const sectionList = arrayLikeToArray(document.querySelectorAll('.video-tag'));
+        const elementsObserve = new IntersectionObserver(entries => {
+            entries.forEach(item => {
+                console.log('iii', item.isIntersecting)
+                if (item.isIntersecting) {
+                    console.log('ttt', item.target)
+                    const video = item.target;
+                    // -
+                    onlyOneVideoCanPlay(video);
+                }
+            })
+        }, {
+            threshold: [1],
+        });
+        sectionList.forEach(item => {
+            console.log('item  --')
+            elementsObserve.observe(item);
+        });
+    </script>
+</body>
+</html>

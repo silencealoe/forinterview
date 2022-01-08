@@ -16,8 +16,6 @@
         // 如果json里面有时间对象，则序列化结果：时间对象=>字符串的形式
         // 如果json里有RegExp、Error对象，则序列化的结果将只得到空对象 RegExp、Error => {}
 
-
-
         // 实现一个深拷贝函数
         // function deepCopy(){
         //     console.log('1', arguments)
@@ -56,7 +54,7 @@
             return typeof source === 'object' && source !== null
         }
 
-        function deepClone(source, hash = new WeakMap()) { // hash存储已经拷贝的对象
+        function deepClone(source, hash = new WeakMap()) { // hash存储已经拷贝的对象,防止循环引用
             if (!isObjectORArray(source)) {
                 return source
             }
@@ -65,7 +63,12 @@
                 // console.log(key)
                 if (source.hasOwnProperty(key)) { // 防止原型链上的属性被遍历到
                     if (isObjectORArray(source[key])) {
-                        target[key] = deepClone(source[key])
+                        if(hash.has(target[key])) {
+                            target[key] = undefined
+                        } else {
+                            target[key] = deepClone(source[key])
+                            hash.set(target[key], true)
+                        }
                     } else {
                         target[key] = source[key]
                     }

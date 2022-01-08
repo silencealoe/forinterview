@@ -18,6 +18,38 @@
         }
         const a = new Foo()
         // a.__proto__ === Foo.prototype
+
+        function Func () {
+            this.name = 'aaa'
+            this.age = 10
+            return 1
+        }
+        let f = new Func()
+        console.log(f.constructor) // Func
+        console.log(f.__proto__  === Func.prototype) // true
+        console.log(Func.prototype.__proto__ === Object.prototype) // true
+
+        function Func2 () {
+            return {
+                name: 'aaa',
+                age: 22
+            }
+        }
+        let f2 = new Func2()
+        console.log(f2.constructor === Func2) // false
+        console.log(f2.constructor === Object) // true
+        console.log(f2.__proto__ === Object.prototype) // true
+
+        Object.prototype.a = function () {
+            console.log('this is a')
+        }
+        Function.prototype.b = function() {
+            console.log('this is b')
+        }
+        f2.a() // has
+        // f2.b() // error 
+        Func2.b() // has
+
     </script>
 </body>
 </html>

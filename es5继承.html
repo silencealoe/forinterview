@@ -36,8 +36,100 @@
         // 箭头函数与普通函数的区别
         // 1. 箭头函数没有自身的prototype属性，不能作为构造函数
         // 2. 箭头函数中的this指向函数所在上下文(外层环境this)， 普通函数中的this指向取决于函数的调用位置
-        function arrow() {}
-        console.log(arrow.prototype)
+
+        // Child.prototype = Object.create(Parent.prototype)
+        // Object.create Parent.prototype上得属性放到Child.prototype.__proto__上
+
+        // Object.create与new的区别？？
+        // Object.create 创建一个空对象，将空对象的__proto__指向目标对象
+        // new实在Object.create基础上 多加了将构造函数this绑定到实例上
+
+
+        // 1原型链继承（类式继承）: 子类原型指向父类实例p
+        // 缺点： 1.共享实例属性，引用修改会导致其他子类实例属性修改   2。不能向父类构造函数传递参数
+        function SuperType() {
+            this.colors = ['red', 'green']
+        }
+        function SubFunc() {}
+        SubFunc.prototype = new SuperType()
+        let instance1 = new SubFunc()
+        instance1.colors.push('yellow') // 修改了共享实例属性导致其他实例属性也修改
+        let instance2 = new SubFunc()
+        console.log(instance2.colors) // ["red", "green", "yellow"]
+        
+        // 2构造函数继承: 在执行Child构造函数的时候，子类的实例各自得到一份构造函数的副本，属于值传递,所以子类之间的属性修改是互不相关的
+        // 缺点： 只有不能共用的实例属性，没有父类prototype上的函数
+        function ConstFunc(){
+            this.colors = ['red', 'green']
+        }
+        ConstFunc.prototype.action = function () {
+            console.log(this.colors)
+        }
+        function SubConstFunc(){
+            ConstFunc.call(this)
+        }
+        let c1 = new SubConstFunc()
+        c1.colors.push('yellow') // 修改共享实例属性不会修改其他实例中得值
+        let c2 = new SubConstFunc()
+        console.log(c2.colors) //  ["red", "green"]
+        // c1.action() // error：：无法获取父类prototype上面得方法
+
+        // 3组合继承
+        // 缺点：执行了两次父类构造函数
+        function Verhical(name) {
+            this.name = name
+        }
+        Verhical.prototype.action = function () {
+            console.log('verhical--', this.name, this.subName)
+        }
+        function Car(name, subName){
+            Verhical.call(this, name) // 执行一次构造函数
+            this.subName = subName
+        }
+        Car.prototype = new Verhical() //执行两次构造函数
+        let car = new Car('name1', 'name2')
+        car.action()
+
+        // 4 原型继承 object.create()
+        let proObj = {
+            name: 'color',
+            likeColor: ['red', 'green', 'blue']
+        }
+     //  Object.create 创建一个空对象 将空对象的__proto__指向传入对象
+        const newProObj = Object.create(proObj)
+        newProObj.name = 'sport'
+        newProObj.likeColor.push('yellow')
+        console.log('newProobj', newProObj)
+        console.log('proOBJ', proObj)
+
+
+
+        // 寄生组合式继承
+        function Person(name, age) {
+            this.name = name
+            this.age = age
+        }
+        Person.prototype.action = function () {
+            console.log('action: ' + this.name + this.age)
+        }
+
+        function Student(name, age, score) {
+            Person.call(this, name, age)
+            this.score = score
+        }
+        Student.prototype = Object.create(Person.prototype)
+        Student.prototype.constructor = Student // 修改子类构造函数得指向
+        console.log(Student.prototype.constructor)
+        Student.prototype.showScore = function () {
+            console.log(this.name+':'+this.age+':' + this.score)
+        }
+        let s1 = new Student('lili', 22, 100)
+        s1.showScore()
+        console.log(Function.prototype.__proto__)
+        console.log(Object.__proto__)
+
+
+
     </script>
 </body>
 </html>

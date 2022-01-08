@@ -8,7 +8,7 @@
 </head>
 <body>
     <script>
-        function toHump(str) {
+        function toHump(str) { // 下划线转驼峰
             return str.replace(/\_(\w)/g, function(all, letter){
                 console.log('all', all) // _n
                 console.log('all', letter) // n
@@ -17,7 +17,7 @@
         }
        let res = toHump('class_name')
        console.log(res)
-       function toLine(str) {
+       function toLine(str) { // 驼峰转下划线
            return str.replace(/([A-Z])/g, '_$1')
        }
        let line = toLine('myClassName')

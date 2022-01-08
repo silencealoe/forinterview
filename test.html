@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .one {
+            width: 100%;
+            height: 200px;
+            background: red;
+            margin: 50px 0;
+        }
+        .two {
+            width: 100%;
+            height: 120px;
+            background: yellowgreen;
+            margin: 50px 0;
+        }
+        .three {
+            width: 100%;
+            height: 400px;
+            background: violet;
+            margin: 50px 0;
+        }
+        .title {
+            width: 300px;
+            max-height: 40px;
+            margin: 20px 0;
+            line-height: 20px;
+            font-size: 14px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            border: 1px solid red;
+        }
+    </style>
+</head>
+<body>
+    <div class="title">
+        而我认为如果是东京国
+    </div>
+    <div class="two"></div>
+    <div class="list one" data-play="no-play" data-id="11">
+        <video
+            controls
+            loop="loop"
+            x5-playsinline
+            playsinline="true"
+            x-webkit-airplay="allow"
+            webkit-playsinline="true"
+            x5-video-player-type="h5"
+            x5-video-player-fullscreen="true"
+            poster="https://s2.pstatp.com/cdn/expire-1-M/byted-player-videos/1.0.0/poster.jpg"
+            src="https://s2.pstatp.com/cdn/expire-1-M/byted-player-videos/1.0.0/xgplayer-demo-720p.mp4"
+        ></video>
+    </div>
+    <div class="list three" data-play="no-play" data-id="22"></div>
+    <div class="list one" data-play="no-play" data-id="33"></div>
+    <div class="two"></div>
+    <div class="list three" data-play="no-play" data-id="44"></div>
+    <div class="list one" data-play="no-play" data-id="55"></div>
+    <div class="two"></div>
+    <div class="list three" data-play="no-play" data-id="66"></div>
+    <div class="list three" data-play="no-play" data-id="77"></div>
+    <div class="list one" data-play="no-play" data-id="88"></div>
+    <div class="list three" data-play="no-play" data-id="99"></div>
+    <script>
+        function inPage(dom) {
+            const offsetTop = dom.getBoundingClientRect().top
+            console.log(offsetTop)
+            return offsetTop > 0 && offsetTop < document.documentElement.clientHeight
+        }
+        let curplay = ''
+        function handleScroll () {
+            const list = document.querySelectorAll('.list')
+            for (let i = 0; i < list.length; i++) {
+                const dataplay = list[i].getAttribute('data-play')
+                const dataid = list[i].getAttribute('data-id')
+                console.log('ii', i, inPage(list[i]), dataid, curplay)
+                if (inPage(list[i])) {
+                    // if (dataplay === 'play' && curplay === dataid) {
+                    //     return
+                    // }
+                    list[i].setAttribute('data-play', 'play')
+                    curplay = dataid
+                    returnh
+                } else {
+                    if (dataplay === 'play') {
+                        list[i].setAttribute('data-play', 'no-play')
+                        curplay = ''
+                    }
+                }
+            }
+        }
+        handleScroll()
+        window.addEventListener('scroll', handleScroll)
+    </script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+{
+    "presets":[
+        "es2015"
+    ],
+    "plugins":[
+        "babel-plugin-transform-async-to-generator",
+        "babel-plugin-external-helpers",
+        "transform-runtime",
+        "babel-plugin-transform-es2015-modules-commonjs"
+    ]
+}

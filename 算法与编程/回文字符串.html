@@ -25,6 +25,45 @@
         const testStr = 'abbbabbba'
         const res = isPalindrome(testStr)
         console.log('aa', res)
+
+        // 若存储结构是单向链表 如 a->b->c->d->c->b->a
+        let linkList = {
+            val: 'a',
+            next: {
+                val: 'b',
+                next: {
+                    val: 'c',
+                    next: {
+                        val: 'd',
+                        next: {
+                            val: 'd',
+                            next: {
+                                val: 'c',
+                                next: {
+                                    val: 'b',
+                                    next: {
+                                        val: 'a',
+                                        next: null
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        let fast = linkList
+        let slow = linkList
+        while(fast.next) {
+            if (!fast.next.next) {
+                fast = fast.next
+            } else {
+                fast = fast.next.next
+                slow = slow.next
+            }
+        }
+
+        console.log('fast', slow)
     </script>
 </body>
 </html>

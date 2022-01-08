@@ -14,8 +14,8 @@
             if (!Array.isArray(arr) || arr.length===0) {
                 return arr
             }
-            let min = 0
             for(let j = 0; j < arr.length;j++) { // 执行arr.length次
+                let min = j
                 for (let i = j + 1; i < arr.length; i++) { // 比较
                     if(arr[i] < arr[min]) {
                         min = i
@@ -27,7 +27,7 @@
             }
             return arr
         }
-        const testArr = [22, 12, 44, 35, 6, 17, 90, 109, 8, 41]
+        const testArr = [22, 8, 44, 35, 17, 90, 109, 6, 41]
         const res = selectSort(testArr)
         console.log('aaaa', res)
     </script>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // es6 class 开启严格模式 不存在变量的声明提升
+        class Person{
+            constructor(name, age) {
+                this.name = name
+                this.age = age
+            }
+            action(){
+                console.log(this.name + this.age)
+            }
+        }
+        const p = new Person('xiaoming', 20)
+
+        //对象的 Symbol.hasInstance   属性指向一个内部方法，当对象使用instanceof时会自动调用这个方法
+        class TestClass{
+            [Symbol.hasInstance](foo){
+                return true
+            }
+        }
+        console.log('a' instanceof new TestClass()) // true
+        console.log(Array[Symbol.hasInstance]('a')) // false
+        console.log(Array[Symbol.hasInstance]([])) // true
+        
+        // 检查声明的class是否通过new调用
+        // new的作用：
+        // 创建一个新对象
+        // 将新对象的__proto__指向构造函数的原型
+        // 将构造函数中的this指向新对象并调用构造函数
+
+        function _instanceof(left, right) { // left 实例对象 right 类
+            if (right != null && typeof Symbol !== "undefined" && right[Symbol.hasInstance]) {
+                //如果存在Symbol.hasInstance
+                return right[Symbol.hasInstance](left);
+            } else {
+                // 没有就直接判断 instanceof
+                return left instanceof right;
+            }
+        }
+        function _classCallCheck(instance, Constructor) {
+            if (!_instanceof(instance, Constructor)) {
+                throw new TypeError("Cannot call a class as a function");
+            }
+        }
+
+        function _defineProperties(target, props) {
+            for (var i = 0; i < props.length; i++) {
+                var descriptor = props[i];
+                descriptor.enumerable = descriptor.enumerable || false;
+                descriptor.configurable = true;
+                if ("value" in descriptor) descriptor.writable = true;
+                Object.defineProperty(target, descriptor.key, descriptor);
+            }
+        }
+
+        // Constructor 构造函数 protoProps 实例方法 staticProps 静态方法
+        // 收集实例函数和静态函数 将方法添加到构造函数或构造函数的原型中，并返回构造函数。
+        function _createClass(Constructor, protoProps, staticProps) {
+            if (protoProps) _defineProperties(Constructor.prototype, protoProps); // 共有函数
+            if (staticProps) _defineProperties(Constructor, staticProps); // 静态方法
+            return Constructor;
+        }
+
+        var Person =
+            /*#__PURE__*/
+            function () {
+                function Person(name, age) {
+                    _classCallCheck(this, Person);
+
+                    this.name = name;
+                    this.age = age;
+                }
+
+                _createClass(Person, [{
+                    key: "toString",
+                    value: function toString() {
+                        return '(' + this.name + ',' + this.age + ')';
+                    }
+                }]);
+
+                return Person;
+        }();
+
+    </script>
+</body>
+</html>

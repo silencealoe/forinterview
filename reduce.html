@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        Array.prototype.myReduce = function (callback, initVal) {
+            let initData = initVal || this[0]
+            let startIndex = initData ? 1: 0
+            for(let i = startIndex;i<this.length;i++) {
+                initData = callback(initData, this[i], i, this)
+            }
+        }
+        const arr = [1,2,3,4]
+        const res = arr.reduce((pre, cur) => {
+            return pre + cur
+        }, 0)
+        console.log(res)
+
+    </script>
+</body>
+</html>
