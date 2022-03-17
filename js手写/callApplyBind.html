@@ -44,6 +44,40 @@
         }
         var bindFun = testFunc.mybind(obj, 201, 'hello')
         bindFun()
+
+
+
+        // test
+        function fn1() {
+            console.log(1);
+            this.num = 111; // fn2.num = 111
+            this.sayHey = function() { // fn2.sayHey
+                console.log("say hey.");
+            }
+        }
+        function fn2() {
+            console.log(2);
+            this.num = 222;
+            this.sayHello = function() {
+                console.log("say hello.");
+            }
+        }
+        const testObj = {}
+        fn1.call(testObj); // 1
+
+        fn1(); // 1
+        console.log(fn1.num) ; // undefined
+        // fn1.sayHey(); // fn1.sayHey is not a function
+
+        fn2(); // 2
+        // console.log(fn2.num); // 111
+        console.log(testObj.num); // 111
+        // fn2.sayHello(); // fn2.sayHello is not a function
+
+        // fn2.sayHey(); //say hey.
+        testObj.sayHey(); //say hey.
+        
+
     </script>
 </body>
 </html>

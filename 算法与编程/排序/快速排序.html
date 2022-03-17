@@ -8,7 +8,8 @@
 </head>
 <body>
     <script>
-        // 快速排序：
+        // 快速排序：原地 不稳定 时间复杂度O(nlogn)
+        //  稳定性： 值相同的元素，在排序过程中是否会发生位置变化
         // 以数组中第一个数为基准，将小于这个基准数的数放入基数前面，大于这个基数的数放入基数后面，前后两个数组一次进行这种操作
         function quickSort(arr) {
             if (!Array.isArray(arr) || arr.length===0) {
@@ -26,6 +27,9 @@
         const testArr = [22, 12, 44, 35, 6, 17, 90, 109, 8, 41]
         const res = quickSort(testArr)
         console.log(res)
+        // 6 8 7 6 3 5 9 4
+        // 4 8 7 6 3 5 9 6
+        // 3 8 7 6 4 5 9 6
     </script>
 </body>
 </html>

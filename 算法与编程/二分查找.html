@@ -9,6 +9,7 @@
 <body>
     <script>
         // 二分查找：
+        // 使用场景： 顺序表结构 数据有序 数据量太大，太小，  插入，删除操作不频繁
         // 递归
         function findNum(arr, num, low, high) {
             if(low > high) return -1
@@ -27,7 +28,7 @@
             let low = 0
             let high = arr.length - 1
             while (low <= high) {
-                const mid = parseInt((low + high) / 2)
+                const mid = parseInt(low + ((high - low) / 2));
                 if (arr[mid] === num) {
                     return mid
                 } else if(arr[mid] > num) {

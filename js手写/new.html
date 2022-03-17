@@ -19,8 +19,10 @@
         function myNew(fn, ...args){
             const tempObj = {}
             tempObj.__proto__ = fn.prototype
-            fn.apply(tempObj, args)
-            return tempObj
+            const resut = fn.apply(tempObj, args)
+            const isObj = typeof resut === 'object' && resut !== null;
+            const isFunc = typeof resut === 'function'
+            return isFunc || isFunc ? resut : tempObj
         }
         function Test(name, age) {
             this.name = name

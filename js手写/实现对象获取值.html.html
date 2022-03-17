@@ -11,15 +11,22 @@
         function find(obj, str) {
             const arr = str.split('.')
             let temp = obj[arr[0]]
-            arr.forEach((item, index) => {
-                if(index > 0) {
-                    if(temp) {
-                        temp = temp[item]
-                    } else {
-                        temp = undefined
-                    }
+            // arr.forEach((item, index) => {
+            //     if(index > 0) {
+            //         if(temp) {
+            //             temp = temp[item]
+            //         } else {
+            //             temp = undefined
+            //         }
+            //     }
+            // })
+            for(let i = 1;i<arr.length;i++) {
+                if(temp) {
+                    temp = temp[arr[i]]
+                } else {
+                    temp = undefined
                 }
-            })
+            }
             return temp
         }
         var obj = {a:{b:{c:1}}}

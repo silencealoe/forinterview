@@ -9,6 +9,7 @@
 <body>
     <script>
         //平衡二叉树：每个节点的左子树和右子树高度差最大为1
+        // 完全二叉树： 除了最后一层，其他层的节点数都是满的，最后一层节点靠左排列
         function Node(value) {
             this.value = value
             this.left = null
@@ -52,6 +53,29 @@
             }
         }
         console.log('isBlance ', isBalance(C))
+
+        var testFunc = (root) => {
+            let flag = 1;
+            const innerFunc = (root) => {
+                let leftDeep = 0;
+                let rightDeep = 0;
+                if (!root) {
+                    return 1;
+                }
+                if(root.left) {
+                    leftDeep = innerFunc(root.left)
+                }
+                if (root.right) {
+                    rightDeep = innerFunc(root.right);
+                }
+                if (Math.abs(leftDeep - rightDeep) > 1) {
+                    flag = 0;
+                }
+            return Math.max(rightDeep, leftDeep) + 1;
+            }
+        innerFunc(root);
+        return !!flag
+    }
     </script>
 </body>
 </html>

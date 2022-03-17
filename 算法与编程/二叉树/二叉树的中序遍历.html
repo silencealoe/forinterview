@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 中序遍历： 左--中--右
+        var inorderTraversal = function(root) {
+            let mid = 0;
+            let leftVal = [];
+            let rightVal = [];
+            if (!root) {
+                return []
+            } 
+            mid = root.val
+            if (root.left) {
+                leftVal = inorderTraversal(root.left);
+            }
+            if (root.right) {
+                rightVal = inorderTraversal(root.right);
+            }
+            return leftVal.concat(mid, ...rightVal);
+        };
+
+        // 前序遍历 ： 中--左--右
+        var preorderTraversal = function(root) {
+            let mid = 0;
+            let leftVal = [];
+            let rightVal = [];
+            if (!root) {
+                return []
+            } 
+            mid = root.val
+            if (root.left) {
+                leftVal = preorderTraversal(root.left);
+            }
+            if (root.right) {
+                rightVal = preorderTraversal(root.right);
+            }
+            return [mid].concat(...leftVal, rightVal);
+        };
+
+        // 后续遍历: 左右中
+        var postorderTraversal = function(root) {
+            let mid = 0;
+            let leftVal = [];
+            let rightVal = [];
+            if (!root) {
+                return []
+            } 
+            mid = root.val
+            if (root.left) {
+                leftVal = postorderTraversal(root.left);
+            }
+            if (root.right) {
+                rightVal = postorderTraversal(root.right);
+            }
+            return rightVal.concat(mid, ...leftVal);
+        };
+
+    </script>
+</body>
+</html>

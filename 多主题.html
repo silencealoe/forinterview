@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html[data-theme="light"]:root {
+            --body-background: #efefef;
+            --text-color: #333;
+        }
+        /* 深色模式 */
+        html[data-theme="dark"]:root {
+        --body-background: #000;
+        --text-color: #ededed;
+        }
+        .test{
+            background: var(--body-background);
+            color: var(--text-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="test">
+        sass 编译 ast分析可以将同个文件相同的内容进行删除
+        解决方案1： 通过属性选择器，控制根节点css变量
+        解决方案2： 将不同主题的样式分别放在不同的css文件，通过在head中引入style
+            优势：简单 容易理解 样式文件结构清晰
+        缺点： 需要手写多套css 产生大量重复代码 修改成本大 容易漏改 切换样式需要下载css时间
+    </div>
+    <script>
+        // 使用js不利于扩展
+        // 解决方案：通过属性选择器 控制根节点css变量
+        // 多套css 通过在head中引入
+        const themeMedia = window.matchMedia("(prefers-color-scheme: dark)");
+        console.log(themeMedia)
+    </script>
+</body>
+</html>

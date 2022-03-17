@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 请你找出数组中的最大元素并检查它是否 至少是数组中每个其他数字的两倍 。如果是，则返回 最大元素的下标 ，否则返回 -1 。
+        // [1, 0]
+        var dominantIndex = function(nums) {
+            if(nums.length === 1) {
+                return 0;
+            }
+            let maxNum = 0;
+            let maxIndex = 0;
+            let lessMax = 0;
+            for(let i = 0;i < nums.length;i++) {
+                if(nums[i] > maxNum) {
+                    lessMax = maxNum;
+                    maxNum = nums[i];
+                    maxIndex = i;
+                } else if(nums[i] > lessMax) {
+                    lessMax = nums[i];
+                }
+            }
+            return maxNum >= (lessMax * 2) ? maxIndex : -1; 
+        };
+        console.log(dominantIndex([0,0,3,2]))
+    </script>
+</body>
+</html>

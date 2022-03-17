@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box {
+            width: 200px;
+            height: 200px;
+            border: 1px solid red;
+            position: relative;
+            /* top: -100px; */
+            background: #333;
+        }
+        .box1{
+            width: 100px;
+            height: 100px;
+            border: 1px solid blue;
+            background: bisque;
+        }
+        .box2{
+            width: 50px;
+            height: 50px;
+            border: 1px solid gray;
+            background: gold;
+            position: absolute;
+            left:0;
+            top:0;
+            bottom: 0;
+            right: 0;
+            /* 四个值都设置为0， 元素会与父元素尺寸相同 */
+            /* 若没有设置自身宽高，元素与父元素相同，若设置了，按照自身尺寸 */
+            margin: auto;
+        }
+        .box3{
+            width: 100px;
+            height: 100px;
+            border: 1px solid green;
+            background: green;
+        }
+        .wrap {
+            width: 100px;
+            height: 100px;
+            position: relative;
+            background: blueviolet;
+        }
+    </style>
+</head>
+<body>
+    <!-- static: 无定位，位置的移动通过margin来改变
+    relative:  left top zindex 相对于自身位置定位，原本所占据的空间依然被保留
+    fixed: 固定定位 相对于浏览器窗口
+    absolute: 绝对定位 相对于最近的一个不是static的父元素定位，脱离正常文档流,原本占据空间不被保留 -->
+    <div class="box1"></div>
+    <div class="box"></div>
+    <div class="wrap">
+        <div class="box2"></div>
+    </div>
+    <div class="box3"></div>
+</body>
+</html>

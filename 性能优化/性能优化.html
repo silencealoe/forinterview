@@ -9,8 +9,18 @@
 <body>
     <script>
         //  路由, 第三方组件的使用按需加载
-        // 减少http请求
-        // 减少dom操作
+        // 减少http请求，使用雪碧图，css文件合并
+        // 减少dom操作,避免重绘和重排（使用transition替代position）
+        // 减少不必要的代码嵌套
+        // 代码图片压缩减少请求时间 gzip压缩
+        // tree-shaking
+        // js异步加载 script defer
+
+        // 利用浏览器缓存
+
+
+        // 节流防抖 
+
 
         // vue相关优化
         // 区分v-if和v-show的使用

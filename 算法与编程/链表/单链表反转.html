@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 单链表反转
+        // 思路： 1->2->3->4   2>1>3>4 3>2>1>4  4>3>2>1
+        function LinkList(val, next) {
+            this.val = val
+            this.next = next || null
+        }
+        let D = new LinkList(4)
+        let C = new LinkList(3, D)
+        let B = new LinkList(2, C)
+        let A = new LinkList(1, B)
+
+        function reverseLink(head) {
+            let res = null;
+            while(head) {
+                next = head.next;
+                head.next = res;
+                res = head;
+                head = next;
+            }
+            return res;
+        }
+        console.log(reverseLink(A));
+
+
+        // 数组反转
+        function reverseArr(arr) {
+            let i = 0;
+            let j = arr.length - 1;
+            while (i<j) {
+                let temp = null;
+                temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+                i++;
+                j--;
+            }
+            return arr;
+        }
+
+        function reverseArr2(arr) {
+           const midlen = arr.length / 2;
+           for(let i = 0;i<midlen;i++) {
+               [arr[i], arr[arr.length - i -1]] = [arr[arr.length - i -1], arr[i]];
+           }
+           return arr;
+        }
+        console.log(reverseArr2([1,2,3,4,5]));
+    </script>
+</body>
+</html>

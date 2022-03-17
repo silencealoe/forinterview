@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // . 查找和最小的 K 对数字
+        var kSmallestPairs = function(nums1, nums2, k) {
+            if (!nums1.length || !nums2.length) {
+                return []
+            }
+            const all = nums1.length * nums2.length;
+            if(k > all) {
+                k = all;
+            }
+        };
+        console.log(kSmallestPairs([1,1], [1,2], 2));
+    </script>
+</body>
+</html>
