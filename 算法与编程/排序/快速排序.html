@@ -18,13 +18,20 @@
             const baseNum = arr[0]
             const lessArr = []
             const greateArr = []
-            arr.forEach(num => {
-                if(num < baseNum) lessArr.push(num)
-                if(num > baseNum) greateArr.push(num)
-            });
+            for(let i = 1; i<arr.length;i++) {
+                if(arr[i] > baseNum) {
+                    greateArr.push(arr[i])
+                } else {
+                    lessArr.push(arr[i])
+                }
+
+            }
+            // arr.forEach(num => {
+            //     if(num >= baseNum) greateArr.push(num)
+            // });
             return quickSort(lessArr).concat(baseNum, quickSort(greateArr))
         }
-        const testArr = [22, 12, 44, 35, 6, 17, 90, 109, 8, 41]
+        const testArr = [22, 12, 12, 44, 35, 6, 17, 90, 109, 8, 41]
         const res = quickSort(testArr)
         console.log(res)
         // 6 8 7 6 3 5 9 4

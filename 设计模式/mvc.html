@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    mvc模式：
+    m: 数据层
+    v: 视图层
+    c: 控制层
+    视图层可以直接从数据层获取数据
+    控制层操作数据层和视图层，交互
+    未限制数据流 数据和视图存在耦合
+    mvp模式:
+    限制m和v交互需要通过 p(presenter) 对m和v解耦 
+    m改变时 需要手动修改视图
+    mvvm模式：
+    m改变自动通知v,无需操作修改视图，数据驱动视图的修改
+</body>
+</html>

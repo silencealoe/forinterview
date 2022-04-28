@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .parent{
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: #f0f0f0;
+            border: 1px solid black;
+            overflow: hidden;
+            margin: auto;
+            display: flex;
+        }
+        .pie{
+            width: 50%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        /* 左半圆 用于旋转*/
+        .pie-left::before, 
+        /* 右半圆 用于旋转*/
+        .pie-right::before,
+        /* 右覆盖圆  大于50的时候 固定显示*/
+        .pie-right::after{
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: deepskyblue;
+        }
+        .pie-left::before{
+            left: 100%;
+            transform-origin: left;
+            transform: rotate(calc(3.6deg * (var(--percent) - 50)));
+            /* 小于50时 左边隐藏 */
+            opacity: calc(9999 * (var(--percent) - 50));
+        }
+        .pie-right::before {
+            right: 100%;
+            transform-origin: right;
+            transform: rotate(calc(3.6deg * var(--percent)));
+        }
+        .pie-right::after {
+            /* 大于50时 一直显示 */
+            opacity: calc(9999 * (var(--percent) - 50));
+        }
+    </style>
+</head>
+<body>
+    <!-- css 实现饼状图 -->
+    <div class="parent" style="--percent: 30">
+        <div class="pie pie-left"></div>
+        <div class="pie pie-right"></div>
+    </div>
+</body>
+</html>

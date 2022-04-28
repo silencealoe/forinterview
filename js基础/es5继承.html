@@ -36,7 +36,7 @@
         // 箭头函数与普通函数的区别
         // 1. 箭头函数没有自身的prototype属性，不能作为构造函数
         // 2. 箭头函数中的this指向函数所在上下文(外层环境this)， 普通函数中的this指向取决于函数的调用位置
-
+        // 3. 箭头函数没有自身的arguments
         // Child.prototype = Object.create(Parent.prototype)
         // Object.create Parent.prototype上得属性放到Child.prototype.__proto__上
 
@@ -46,7 +46,7 @@
 
 
         // 1原型链继承（类式继承）: 子类原型指向父类实例p
-        // 缺点： 1.共享实例属性，引用修改会导致其他子类实例属性修改   2。不能向父类构造函数传递参数
+        // 缺点： 1.共享实例属性，引用修改会导致其他子类实例属性修改   2。生成实例时，不能向父类构造函数传递参数
         function SuperType() {
             this.colors = ['red', 'green']
         }
@@ -101,10 +101,10 @@
         newProObj.likeColor.push('yellow')
         console.log('newProobj', newProObj)
         console.log('proOBJ', proObj)
+        // 5 寄生式继承
 
 
-
-        // 寄生组合式继承
+        // 6 寄生组合式继承
         function Person(name, age) {
             this.name = name
             this.age = age

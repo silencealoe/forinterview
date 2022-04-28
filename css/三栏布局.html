@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .parent {
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            background-color: aquamarine;
+        }
+        .child {
+            width: calc((100% - 20px)/3);
+            margin-right: 10px;
+            margin-bottom: 10px;
+            background-color: antiquewhite;
+        }
+        .child:nth-of-type(3n){
+            margin-right: 0px;
+        }
+        .inner {
+            height: 0;
+            padding-bottom: 50%;
+            text-align: center;
+            line-height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="parent">
+        <div class="child">
+            <div class="inner">2</div>
+        </div>
+        <div class="child">
+            <div class="inner">2</div>
+        </div>
+        <div class="child">
+            <div class="inner">3</div>
+        </div>
+        <div class="child">
+            <div class="inner">4</div>
+        </div>
+        <div class="child">
+            <div class="inner">5</div>
+        </div>
+        <div class="child">
+            <div class="inner">6</div>
+        </div>
+    </div>
+</body>
+</html>

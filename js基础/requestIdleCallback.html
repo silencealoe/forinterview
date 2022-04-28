@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- https://blog.csdn.net/qdmoment/article/details/100550129 -->
+    浏览器每秒钟渲染60帧 每一帧时间是16ms左右 如果js计算长时间占用线程
+    会导致ui无法及时得到渲染 出现卡顿
+    一帧得时间需要完成得任务：
+    处理用户得交互事件:  click keypress
+    js解析执行： 定时器
+    帧事件： 窗口大小改变 滚动 媒体查询 动画事件
+    布局绘制
+    如果这些任务执行完成 用时不足16ms 说明有空余时间 此时就会执行 requestIdleCallback
+    callback 表示 空闲时执行的回调任务 该回调函数接收一个IdleDeadline对象作为入参。其中IdleDeadline对象包含：
+    didTimeout，布尔值，表示任务是否超时，结合 timeRemaining 使用。
+    timeRemaining()，表示当前帧剩余的时间，也可理解为留给任务的时间还有多少
+
+    options： 只有一个参数 timeout 表示超过这个时间后 如果回调任务还没有执行 则强制执行 不必等待空闲
+
+    <!-- <script>
+        const callback = (e) => {
+            console.log('eee', e.didTimeout) // 是否超时
+            console.log('eee', e.timeRemaining()) // 留给任务的时间 ms
+        }
+        var handle = window.requestIdleCallback(callback, {timeout: 2000})
+    </script> -->
+
+一些低优先级的任务可使用 requestIdleCallback 等浏览器不忙的时候来执行，同时因为时间有限，它所执行的任务应该尽量是能够量化，细分的微任务（micro task）
+因为它发生在一帧的最后，此时页面布局已经完成，所以不建议在 requestIdleCallback 里再操作 DOM，这样会导致页面再次重绘。
+DOM 操作建议在 rAF 中进行。同时，操作 DOM 所需要的耗时是不确定的，因为会导致重新计算布局和视图的绘制，所以这类操作不具备可预测性。
+Promise 也不建议在这里面进行，因为 Promise 的回调属性 Event loop 中优先级较高的一种微任务，会在 requestIdleCallback 结束时立即执行，不管此时是否还有富余的时间，这样有很大可能会让一帧超过 16 ms。
+    实例：
+    <div id="text"></div>
+    <button id="test1" onclick="task1()">正常任务执行</button>
+    <script>
+        let testArr = [
+            function() {
+                for(let i = 0; i< 3000;i++) {
+                    console.log(i)
+                }
+                console.log('第一个任务')
+                document.getElementById('text').innerHTML = 1
+            },
+            function() {
+                for(let i = 0; i< 3000;i++) {
+                    console.log(i)
+                }
+                console.log('第一个任务')
+                document.getElementById('text').innerHTML = 2
+            }
+        ]
+        let task1 = function () {
+            testArr[0]()
+        }
+
+    </script>
+
+</body>
+</html>

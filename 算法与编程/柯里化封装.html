@@ -45,7 +45,25 @@
         // console.log(curryingSum(1, 2)(2)(3, 2)())
         const curryingSum2 = currying2(sum)
         console.log(curryingSum2(1)(2,3,4))
-        // curryingSum(1, 2)(3)()7
+        // curryingSum(1, 2)(3)()
+
+        function currying3() {
+            let args = [...arguments]
+            function inner() {
+                args.push(...arguments)
+                return inner
+            }
+            inner.toString = function(){
+                console.log('aaaa', args)
+                return args.reduce((a,b) => {
+                    return a + b
+                })
+            }
+            return inner
+        }
+        alert(currying3(1,2)(3))
+        var re = currying3(1,2)(3);
+        console.log('aaa', re)
 
 
     </script>

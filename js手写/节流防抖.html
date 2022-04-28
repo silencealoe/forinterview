@@ -43,7 +43,8 @@
         })
         function debounce (cb) { // 防抖
             let timer = null
-            return () => {
+            return (...args) => {
+                console.log('argsss', args)
                 clearTimeout(timer)
                 timer = setTimeout(() => {
                     cb()
@@ -64,9 +65,16 @@
                 }, 2000)
             }
         }
-        window.onmousemove = myThrottle(() => {
-            console.log('my throttle')
-        })
+        const testFunc = function (){
+            console.log('dddd', this)
+            console.log('arguss', arguments)
+        }
+        let val = '123'
+        const objj = {
+            name: 'xiaoming'
+        }
+        window.onmousemove = debounce(testFunc.bind(objj, val))
+    
 
     </script>
 </body>

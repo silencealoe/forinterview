@@ -1,3 +1,12 @@
+## hooks 理念
+* 函数副作用
+*  代数效应
+* 异步可终端更新 新在执行过程中可能会被打断（浏览器时间分片用尽或有更高优任务插队），当可以继续执行时恢复之前执行的中间状态。
+* fiber 纤程 和 协程（generator）是代数效应在 js中的一种实现
+* react fiber:
+react 内部实现的一套状态更新机制 支持任务不同优先级 可中断与恢复 恢复后可以复用之前的状态 
+* 双缓存
+react 在内存中构建好 新的dom 之间替换 旧的dom
 ## 为什么要设计hooks
 * class 组件继承 还有类的实例利用的不好， 组件继承实现起来不雅观，类的实例在内的内部使用。类组件，难以复用，需要使用高阶组件，代码阅读性差
 （没有利用继承特性和类的实例特性）
@@ -9,7 +18,7 @@ hooks机制： 能够把一个外部的数据绑定到函数执行，当数据�
 
 *  简化逻辑复用
 class 组件复用 使用高阶组件 
-hooks 直接通过自定义hook 引入需要的变量
+hooks 直接通过自定义hook 引入需要的变量 组件层级变浅
 * 关注分离
 同一个业务逻辑代码 尽可能聚合在一块
 
@@ -43,6 +52,7 @@ useLayoutEffect callback在dom更新之后， 浏览器真正渲染到页面之�
 * 只对同级元素进行比较， 如果一个dom节点在前后两次更新中，跨越了层级，那么react不会复用，直接重建
 * 不同类型的的元素会生成不同的树， 元素节点类型改变，销毁旧类型节点，创建新类型节点
 * 使用key来 暗示哪些子元素在不同的渲染下能保持稳定，若前后两个节点key相同，位置不同，react会复用，只需要修改顺序. 若只是修改className，react 会修改className 复用dom
+
 若没有key 修改节点顺序，会导致节点删除重建。
 
 diff思想：
@@ -70,6 +80,8 @@ diff思想：
 ## 标记节点是否移动
 old: abcd => new: dabc
 old: abcd => new: acbd
+abcd
+acbd
 第一轮遍历结束得到最后一个可复用节点的在oldFiber索引 lastPlacedIndex
 遍历新节点，然后通过key在旧节点中获取对应的index oldIndex
 将新集合节点中的索引和旧节点索引进行比较 
@@ -81,14 +93,62 @@ oldIndex >= lastPlacedIndex lastPlacedIndex = oldIndex
 使用React.memo()包裹组件 对新旧props进行对比 
 usecallback 函数缓存 
 useMemo 值的缓存
+shouldcomponentupdate
 
 ## useContext 实现组件跨越层级传值 
 使用createContext 创建数据
 在子组件中使用 useContext获取值
+数据共享
 ## 触发状态更新
 this.setState
 useState
 this.forceUpdate
 React.render
 useReducer
+
+## useReducer 
+场景： state 逻辑较复杂且包含多个子值，或者下一个 state 依赖于之前的 state 
+state结构复杂
+* 管理基础数据类型 useState
+* 复杂类型 useReducer
+
+## hook 组件性能优化
+思路：
+* 减少重新render的次数： 在 React 里最重(花时间最长)的一块就是 reconction(简单的可以理解为 diff)，如果不 render，就不会 reconction
+* 减少计算的量： 对于函数式组件 每次render都会重新从头开始执行函数调用
+
+class 组件优化： Purecomponent 和 shouldcomponentupdate
+
+hooks组件优化：
+* React.memo() 对标类组件的 Purecomponent 是一个高阶函数 传递一个组件作为参数 返回一个有记忆的组件 
+默认只会对props做浅层比较 就是只对比 前后两次props对象的引用是否相同 不会比较里面的内容是否相同 如果想要控制对比过程 可以传递第二个参数
+```javascript
+function isEqual(preProps, nextProps) {
+    // 相等 return true   否则 return false
+}
+React.memo(APP, isEqual)
+```
+场景： 父组件状态改变 但是传递给子组件的状态并没有改变 子组件也会被动重新渲染
+
+* useCallback 对函数引用进行缓存 组件重新渲染前后 函数引用地址一致
+场景： 父组件传递方法到子组件 父组件更新导致子组件更新 方法需要usecallback
+
+* useMemo 减少计算
+将计算的值缓存起来 如果依赖未修改 每次调用函数返回缓存的值
+```javascript
+const sum = useMemo(() => {
+    let result
+    for(let i =0;i < 10000;i++) {
+        result+=i
+    }
+    return result
+}, [num1])
+
+<div>{sum}</div>
+```
+计算量很小的可以不使用 计算量小并不会造成性能瓶颈
+如果不提供依赖数组， 每次渲染都会重新计算
+
+
+
 

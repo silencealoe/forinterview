@@ -8,3 +8,12 @@
  * 利用的html5 history Api pushState和replaceState
  * 用户直接在地址栏输入或者刷新会向后端请求，出现404问题
 */
+// var a = 1
+getNum()
+var getNum = () => {
+    a = 2
+}
+function getNum() {
+    a = 3
+}
+console.log(a)

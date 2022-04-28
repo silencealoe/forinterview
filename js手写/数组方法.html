@@ -54,6 +54,9 @@
             }
         }
         arr2.myForEach((item, index) => {
+            if(index === 1) {
+                return;
+            }
             console.log('forr', item, index)
         })
 

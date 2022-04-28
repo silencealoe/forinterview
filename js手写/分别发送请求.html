@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /**
+         * 实现一个图片请求 挨个发送 1s内没有响应 中断 接着发一下请求
+         * 
+        */
+       const deley = (t) => new Promise((resolve) => setTimeout(() => resolve('f'), t))
+       const downloadImg = (src) => {
+           return new Promise((resolve, rejected) => {
+               let img = new Image()
+               img.src = src
+               img.onload = () => {
+                   resolve('success')
+               }
+               img.onerror = () => {
+                    rejected('f')
+               }
+           })
+       }
+
+       const requestImageOneByone = async (arr) => {
+           const resStatus = []
+            for(let i = 0; i<arr.length; i++) {
+                try {
+                    const res = await Promise.race([downloadImg(arr[i]), deley(10)])
+                    console.log('res', res)
+                    if(res === 'success') {
+                        resStatus[i] = res
+                    }
+                } catch (e) {
+                    continue
+                }
+            }
+            return resStatus
+       }
+       requestImageOneByone(['https://tenfei04.cfp.cn/creative/vcg/800/version23/VCG41175510742.jpg','a', 'https://t7.baidu.com/it/u=4198287529,2774471735&fm=193&f=GIF', '1.jpg']).then(res => {
+           console.log('status', res)
+       })
+    </script>
+</body>
+</html>

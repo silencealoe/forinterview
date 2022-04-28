@@ -64,9 +64,9 @@
                 if (source.hasOwnProperty(key)) { // 防止原型链上的属性被遍历到
                     if (isObjectORArray(source[key])) {
                         if(hash.has(target[key])) {
-                            target[key] = undefined
+                            target[key] =  null
                         } else {
-                            target[key] = deepClone(source[key])
+                            target[key] = deepClone(source[key], hash)
                             hash.set(target[key], true)
                         }
                     } else {

@@ -1,6 +1,7 @@
 /**
- *观察者模式：也被称为消息机制 订阅发布模式
- * 
+ * 观察者
+ * 订阅发布
+ * js原生事件
 */
 
 class Observer {
@@ -56,8 +57,16 @@ ob.register('test1', (e) => {
 ob.fire('test', {msg: 'mode'})
 ob.fire('test1', {msg: 'mode'})
 
-const func = () => {
-
+function addMessages() {
+    let nums = 0;
+    let ob = new Observer();
+    ob.register('sendMessage', (msg) => {
+        console.log('massage:', msg)
+        nums++
+        console.log(nums)
+    })
+    ob.fire('sendMessage', {msg: 'hello'})
 }
-function funcc() {}
-console.log(funcc.prototype)
+addMessages()
+
+// 观察者

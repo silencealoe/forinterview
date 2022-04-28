@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .list{
+            width: 50%;
+            padding: 20px;
+            border: 1px solid rebeccapurple;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            grid-template-rows: auto auto auto;
+            grid-gap: 5px;
+            /* grid-row-gap: 20px; */
+            /* grid-column-gap: 20px; */
+            /* display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start; */
+        }
+        .item {
+            /* width: 100px; */
+            height: 100px;
+            background: darkgoldenrod;
+            flex: 1 1 100px;
+        }
+        .flexlist {
+            width: 50%;
+            height: 600px;
+            margin: 100px auto;
+            border: 1px solid goldenrod;
+            display: flex;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            align-content: flex-start;
+            /* align-items: flex-start; */
+            
+        }
+        .item1 {
+            width: 50px;
+            height: 50px;
+            /* margin: 0 auto;  */
+            background: brown;
+        }
+    </style>
+</head>
+<body>
+    <!-- 间隙固定 item宽度不固定 -->
+    <div class="list">
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+    </div>
+    <!-- item宽度固定 间隙不固定 -->
+    <div class="flexlist">
+        <div class="item1"></div>
+        <div class="item1"></div>
+        <div class="item1"></div>
+        <div class="item1"></div>
+        <div class="item1"></div>
+        <div class="item1"></div>
+        <div class="item1"></div>
+        <div class="item1"></div>
+        <div class="item1"></div>
+        <div class="item1"></div>
+        <div class="item1"></div>
+        <div class="item1"></div>
+    </div>
+</body>
+</html>

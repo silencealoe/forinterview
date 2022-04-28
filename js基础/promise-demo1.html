@@ -149,6 +149,50 @@ Promise.all(tempArr).then(res=> {
     console.log('real-catch-all', err)
 })
 
+/**
+ * promise.allSettled
+ * 所有实例都执行结束 无论结果是fulfilled 或者rejected 
+ * 包装实例返回的promise 状态只能是fulfilled 不可能是reject 
+ * 返回的promise参数是一个数组 保存了每一个实例的执行结果状态和数据
+*/
+myPromise.allSettled = function(tempArr){
+    const common = (resolve) => {
+        let num = 0
+        let result = [];
+        return (tempObj) => {
+            result.push(tempObj)
+            num++
+            if(num === tempArr.length) {
+                resolve(result)
+            }
+        }
+    }
+    return new myPromise((resolve, reject) => {
+        // let num = 0;
+        // let result = []
+        let commonCb = common(resolve)
+        tempArr.forEach(item => {
+            const tempObj = {}
+            item.then(res => {
+                tempObj.status = 'fulfilled'
+                tempObj.value = res
+                commonCb(tempObj)
+            }, rej => {
+                tempObj.status = 'rejected'
+                tempObj.reason = rej
+                commonCb(tempObj)
+            })
+        })
+    })
+}
+myPromise.allSettled(tempArr).then(res => {
+    console.log('my allsettled', res)
+})
+Promise.allSettled(tempArr).then(res => {
+    console.log('promise allsettled', res)
+})
+
+
 // race 返回promise数组中第一个执行完毕的状态，无论是fulfiled还是failed，但不影响数组中其余promise继续执行
 var tempRaceArr = [
     new Promise((resolve, reject) => {
@@ -165,6 +209,11 @@ var tempRaceArr = [
 Promise.race(tempRaceArr).then(res => {
     console.log('real race', res)
 })
+/**
+ * promise.race
+ * 只要有一个实例改变状态 包装实例就返回这个状态无论状态是fulfilled 还是rejected
+ * promise数组会继续执行 但是状态不会修改
+*/
 myPromise.race = function(promiseArr) {
     return new myPromise(function(resolve, reject){
         promiseArr.forEach(item => {
@@ -176,6 +225,40 @@ myPromise.race = function(promiseArr) {
         })
     }) 
 }
+
+/**
+ * promise.any
+ * 只要参数有一个实例结果是fulfilled状态 包装实例就会变成fulfilled状态
+ * 如果所有参数实例结果都是reject状态 包装实例才会变成reject状态
+*/
+myPromise.any = function(promiseArr) {
+    return new myPromise(function(reslove, reject){
+        let rejectNum = 0
+        promiseArr.forEach(item => {
+            item.then((data) => {
+                reslove(data)
+            }, (err) => {
+                rejectNum++
+                if(rejectNum === promiseArr.length) {
+                    reject('all promise were rejected')
+                }
+            })
+        })
+    })
+}
+myPromise.any(tempRaceArr).then(res => {
+    console.log('any', res)
+}).catch(err => {
+    console.log('any catch', err)
+})
+Promise.any(tempRaceArr).then(res => {
+    console.log('promise any', res)
+}).catch(err => {
+    console.log('promise any catch', err)
+})
+
+
+
 myPromise.race(tempRaceArr).then(res => {
     console.log('my promise', res)
 })

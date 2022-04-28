@@ -5,9 +5,52 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        .transition {
+            width: 100px;
+            height: 50px;
+            background: goldenrod;
+            transition: all 2s;
+        }
+        .transition:hover {
+            width: 400px;
+            background: gold;
+        }
+        .animation-style {
+            width: 100px;
+            height: 100px;
+            background: burlywood;
+            transform-origin: 100px 100px;
+            animation: move 2s linear infinite;
+        }
+        @keyframes move{
+            25%{
+                transform: rotateZ(30deg);
+            }
+            50%{
+                transform: rotateZ(180deg);
+            }
+            75%{
+                transform: rotateZ(270deg);
+            }
+            100%{
+                transform: rotateZ(360deg);
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- transition 和 animation区别？ -->
+    transition 过渡 
+    补充中间帧  无法设置中间每一个帧 必须有初始和结束状态（两个帧）
+    需要通过hover或者js来触发
+    animation 动画
+    可以设置中间帧的状态，设置动画播放次数 
+    可以自动触发
+    <div>transition</div>
+    <div class="transition"></div>
+    <div>animation</div>
+    <div class="animation-style"></div>
 
 </body>
 </html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- 设置用户无法缩放 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1, minimum-scale=1.0, user-scalable=no">
+    <title>Document</title>
+</head>
+<body>
+    <!-- rem 换算插件  postcss-px2rem -->
+    <!-- 前端 3倍图 2倍图：  -->
+    rem相对于根元素大小 em相对于父元素大小
+    获取整个屏幕宽度 分为10份 html font-size 的大小为1/10
+    屏幕宽度 414 
+    font-size: 41.4px
+    <!-- flexible.js 实时检测屏幕窗口的变化实现检测视口宽度 -->
+    <!-- font-size计算: (devicewidth / 设计稿宽度 / 设计稿倍数（dpr））* 100 px = 1rem -->
+    <!-- rem原理 -->
+    <!-- vw原理 -->
+    屏幕宽度是100vw  屏幕宽度 414
+    1vw = 4.14px
+
+    设计图 1242px = 100vw
+        1px = 100 / 1242 = 0.0805vw(约等于)
+        为了方便计算 100px = 8.05vw
+        font-size: 8.05vw  -> 100px -> 1rem
+        所以16px = 0.16rem
+        187.02px
+
+
+
+    缺点： 无论视口 过大还是过小 vw都随着改变 失去了最大最小的限制
+    解决： 可以限制body的宽度 
+
+    rem缺点： 不方便计算 计算结果不直观
+    
+</body>
+</html>
